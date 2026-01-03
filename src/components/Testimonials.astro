@@ -1,0 +1,61 @@
+---
+const testimonials = [
+  {
+    name: 'Fabricio Martínez',
+    role: 'Director Marketing Digital',
+    quote: 'Recuperé 3 horas semanales en los primeros días. El sistema de Cerebro Digital cambió completamente cómo organizo y uso la información.',
+    avatar: '/images/avatars/avatar1.png',
+  },
+  {
+    name: 'Constanza Cannon',
+    role: 'CFO',
+    quote: 'No solo usaba mejor la IA - pensaba diferente. El Ciclo Amplificador me ayudó a ver patrones que antes pasaba por alto.',
+    avatar: '/images/avatars/avatar2.png',
+  },
+  {
+    name: 'Martina Clavero',
+    role: 'Consultor Senior',
+    quote: 'Procesando información de formas que antes no podía. Mis clientes notan la diferencia en la profundidad de mis análisis.',
+    avatar: '/images/avatars/avatar3.png',
+  },
+  {
+    name: 'Alejandro Méndez',
+    role: 'Arquitecto de Software',
+    quote: 'Diseños más completos en mitad de tiempo. AIThinking me enseñó a usar la IA como un verdadero colaborador estratégico.',
+    avatar: '/images/avatars/avatar4.png',
+  },
+];
+---
+
+<section class="py-24 bg-dark-900">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-6">
+      <span class="text-accent-cyan font-mono text-sm">06</span>
+      <div class="h-px flex-1 bg-gradient-to-r from-accent-cyan/50 to-transparent"></div>
+    </div>
+
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">
+      Lo que dicen nuestros alumnos
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      {testimonials.map((testimonial) => (
+        <div class="p-8 bg-dark-800/50 rounded-2xl border border-white/5 hover:border-accent-cyan/30 transition-colors">
+          <svg class="w-10 h-10 text-accent-cyan/30 mb-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+          </svg>
+          <p class="text-lg text-gray-300 leading-relaxed mb-6">
+            "{testimonial.quote}"
+          </p>
+          <div class="flex items-center gap-4">
+            <img src={testimonial.avatar} alt={testimonial.name} class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <p class="font-semibold">{testimonial.name}</p>
+              <p class="text-sm text-gray-500">{testimonial.role}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

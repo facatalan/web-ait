@@ -1,0 +1,64 @@
+---
+const faqs = [
+  {
+    question: '¿Realmente necesito esto si ya estoy usando ChatGPT o Claude?',
+    answer: 'Usar una herramienta no es lo mismo que tener un sistema estratégico. AIThinking te enseña a construir un método que amplifica tus fortalezas cognitivas únicas, no solo a escribir mejores prompts.',
+  },
+  {
+    question: '¿Cómo se diferencia de otros cursos de IA?',
+    answer: 'La mayoría de cursos enseñan técnicas tácticas que quedan obsoletas en meses. AIThinking te da un sistema estratégico basado en principios que funcionará con cualquier IA, presente o futura.',
+  },
+  {
+    question: '¿Cuánto tiempo necesito dedicar?',
+    answer: '3-4 horas semanales: 1.5 horas en sesión en vivo + 1.5-2.5 horas de implementación práctica.',
+  },
+  {
+    question: '¿Tendré acceso a grabaciones?',
+    answer: 'Sí, todas las sesiones quedan grabadas y disponibles 24 horas después. Tendrás acceso mínimo de 6 meses.',
+  },
+  {
+    question: '¿Hay alguna garantía?',
+    answer: 'Reembolso 100% si no recuperas 10 horas productivas en los primeros 30 días.',
+  },
+  {
+    question: '¿Funciona con cualquier IA?',
+    answer: 'Sí, el método AIThinking es agnóstico a la herramienta. Funciona con ChatGPT, Claude, Gemini, y cualquier otra IA conversacional.',
+  },
+  {
+    question: '¿Es aplicable a mi industria?',
+    answer: 'AIThinking está diseñado para profesionales de cualquier industria. Lo que importa es tu experiencia única, no el sector específico.',
+  },
+  {
+    question: '¿Hay precios especiales para grupos?',
+    answer: 'Sí, ofrecemos precios especiales para grupos de 3 o más personas. Contáctanos para más información.',
+  },
+  {
+    question: '¿Y si ya soy usuario avanzado de IA?',
+    answer: 'AIThinking te muestra cómo construir un sistema estratégico que amplifica tus fortalezas cognitivas. Incluso usuarios avanzados descubren nuevas formas de potenciar su trabajo.',
+  },
+];
+---
+
+<section class="py-24 bg-dark-900">
+  <div class="max-w-4xl mx-auto px-6">
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">
+      Preguntas Frecuentes
+    </h2>
+
+    <div class="space-y-4">
+      {faqs.map((faq, index) => (
+        <details class="group bg-dark-800/50 rounded-xl border border-white/5 overflow-hidden">
+          <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+            <span class="text-lg font-medium pr-8">{faq.question}</span>
+            <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6">
+            <p class="text-gray-400 leading-relaxed">{faq.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,70 @@
+---
+const experience = [
+  'Director de Tecnología en Poliglota',
+  'Gerente de Innovación en MapCity',
+  'Consultor senior en Innspiral y Everis (NTT DATA)',
+  'Fundador de Neuroboost (2023)',
+];
+---
+
+<section class="py-24 bg-dark-800/30">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-6">
+      <span class="text-accent-blue font-mono text-sm">05</span>
+      <div class="h-px flex-1 bg-gradient-to-r from-accent-blue/50 to-transparent"></div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+          Conoce tu instructor
+        </h2>
+
+        <p class="text-xl text-gray-400 mb-8 leading-relaxed">
+          Felipe Catalán es un consultor especializado en la intersección entre tecnología y estrategia de negocios, con <span class="text-white font-semibold">casi 20 años de experiencia</span>.
+        </p>
+
+        <div class="mb-8">
+          <h3 class="text-sm text-gray-500 uppercase tracking-wider mb-4">Experiencia</h3>
+          <ul class="space-y-3">
+            {experience.map((item) => (
+              <li class="flex items-center gap-3 text-gray-300">
+                <div class="w-2 h-2 rounded-full bg-accent-blue"></div>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div class="relative">
+        <!-- Photo -->
+        <div class="relative mb-8 flex justify-center">
+          <div class="absolute inset-0 bg-gradient-to-br from-accent-blue/30 to-accent-purple/30 rounded-2xl blur-2xl"></div>
+          <img
+            src="/images/instructor.jpg"
+            alt="Felipe Catalán"
+            class="relative w-64 md:w-72 lg:w-80 aspect-square object-cover object-top rounded-2xl border border-white/10"
+          />
+        </div>
+
+        <!-- Quote card -->
+        <div class="relative bg-dark-900/80 p-8 rounded-2xl border border-white/10">
+          <svg class="w-12 h-12 text-accent-blue/30 mb-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+          </svg>
+          <p class="text-lg text-gray-300 leading-relaxed italic mb-6">
+            "Mi carrera se ha centrado en ser un puente entre tecnología y negocios... AI Thinking nació precisamente aquí, en esta intersección tecnología-negocio."
+          </p>
+          <div class="flex items-center gap-4">
+            <img src="/images/instructor.jpg" alt="Felipe Catalán" class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <p class="font-semibold">Felipe Catalán</p>
+              <p class="text-sm text-gray-500">Fundador, Neuroboost</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

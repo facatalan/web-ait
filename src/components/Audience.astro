@@ -1,0 +1,40 @@
+---
+const criteria = [
+  { text: 'Tienes más de', highlight: '5 años de experiencia', suffix: 'profesional' },
+  { text: 'Has probado prompts pero obtienes', highlight: 'resultados mediocres', suffix: '' },
+  { text: 'Sientes que la IA puede', highlight: 'resolver problemas complejos', suffix: '' },
+  { text: 'Estás', highlight: 'dispuesto a dedicar 3-4 horas', suffix: 'semanales' },
+];
+---
+
+<section class="py-24 bg-dark-900">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-6">
+      <span class="text-accent-blue font-mono text-sm">02</span>
+      <div class="h-px flex-1 bg-gradient-to-r from-accent-blue/50 to-transparent"></div>
+    </div>
+
+    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+      ¿A quién está dirigido este programa?
+    </h2>
+
+    <p class="text-xl text-gray-400 mb-12 max-w-3xl">
+      Para profesionales y emprendedores que buscan usar la Inteligencia Artificial para amplificar su experiencia y conocimiento únicos, y transformarlos en una ventaja estratégica <span class="text-white font-semibold">sólo en 4 semanas...</span>
+    </p>
+
+    <div class="grid gap-6">
+      {criteria.map((item, index) => (
+        <div class="flex items-start gap-4 p-6 bg-dark-800/50 rounded-xl border border-white/5 hover:border-accent-blue/30 transition-colors">
+          <div class="w-8 h-8 rounded-full bg-accent-blue/20 flex items-center justify-center flex-shrink-0 mt-1">
+            <svg class="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <p class="text-lg text-gray-300">
+            {item.text} <span class="text-white font-semibold">{item.highlight}</span> {item.suffix}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+const levels = [
+  {
+    level: 1,
+    title: 'Dominio Práctico',
+    color: 'accent-blue',
+    items: [
+      'Acabar con resultados mediocres en 48 horas',
+      'Recuperar 2-3 horas semanales',
+      'Implementar 5 flujos de trabajo',
+    ],
+  },
+  {
+    level: 2,
+    title: 'Amplificación Estratégica',
+    color: 'accent-purple',
+    items: [
+      'Convertir experiencia única en instrucciones',
+      'Desarrollar "cerebro digital" personalizado',
+      'Implementar Ciclo Amplificador',
+    ],
+  },
+  {
+    level: 3,
+    title: 'Transformación Cognitiva',
+    color: 'accent-cyan',
+    items: [
+      'Crear insights estratégicos imposibles sin AIThinking',
+      'Establecer ventaja competitiva',
+      'Desarrollar capacidades del top 1%',
+    ],
+  },
+];
+---
+
+<section class="py-24 bg-dark-900">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-6">
+      <span class="text-accent-cyan font-mono text-sm">04</span>
+      <div class="h-px flex-1 bg-gradient-to-r from-accent-cyan/50 to-transparent"></div>
+    </div>
+
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">
+      Lo que lograrás con <span class="gradient-text">AI-Thinking</span>
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {levels.map((level) => (
+        <div class="relative p-8 bg-dark-800/50 rounded-2xl border border-white/5 overflow-hidden">
+          <!-- Level badge -->
+          <div class={`absolute top-4 right-4 w-12 h-12 rounded-full bg-${level.color}/20 flex items-center justify-center`}>
+            <span class={`text-${level.color} font-bold`}>{level.level}</span>
+          </div>
+
+          <h3 class="text-xl font-bold mb-6 pr-12">{level.title}</h3>
+
+          <ul class="space-y-4">
+            {level.items.map((item) => (
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-300">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
