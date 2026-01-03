@@ -550,13 +550,18 @@ CREATE POLICY "Gestionar mi progreso"
 -- =============================================
 -- TRIGGER: Crear perfil automáticamente al registrarse
 -- =============================================
+-- DECISIÓN: Username usa el email completo sanitizado
+-- Ejemplo: facatalan@gmail.com → facatalan_gmail_com
+-- Razón: Evita colisiones entre usuarios con mismo nombre local
+--        en diferentes dominios (ej: juan@gmail.com vs juan@hotmail.com)
+-- =============================================
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
   INSERT INTO public.profiles (id, username, full_name, avatar_url)
   VALUES (
     NEW.id,
-    LOWER(REGEXP_REPLACE(SPLIT_PART(NEW.email, '@', 1), '[^a-z0-9]', '', 'g')),
+    LOWER(REGEXP_REPLACE(NEW.email, '[^a-z0-9]', '_', 'g')),
     COALESCE(NEW.raw_user_meta_data->>'full_name', ''),
     COALESCE(NEW.raw_user_meta_data->>'avatar_url', '')
   );
@@ -1049,13 +1054,14 @@ const { data: posts } = await supabase
 
 ```sql
 -- Dar acceso a un usuario a un curso
+-- Nota: username es el email sanitizado (ej: juan@gmail.com → juan_gmail_com)
 INSERT INTO user_courses (user_id, course_id, granted_by)
-SELECT 
+SELECT
   p.id,
   c.id,
   'Pago manual - Enero 2025'
 FROM profiles p, courses c
-WHERE p.username = 'juan_perez'
+WHERE p.username = 'juan_gmail_com'
   AND c.slug = 'fundamentos-ia';
 ```
 
@@ -1120,8 +1126,9 @@ grantAccess(username, courseSlug, note || 'Acceso manual');
 
 ```sql
 -- Revocar acceso
+-- Nota: username es el email sanitizado (ej: juan@gmail.com → juan_gmail_com)
 DELETE FROM user_courses
-WHERE user_id = (SELECT id FROM profiles WHERE username = 'juan_perez')
+WHERE user_id = (SELECT id FROM profiles WHERE username = 'juan_gmail_com')
   AND course_id = (SELECT id FROM courses WHERE slug = 'fundamentos-ia');
 ```
 
@@ -1620,20 +1627,22 @@ git push
 **Método 2: Script CLI**
 
 ```bash
-# Dar acceso
-npx tsx scripts/grant-access.ts juan_perez fundamentos-ia "Pago PayPal - Enero 2025"
+# Dar acceso (usar email sanitizado como username)
+# Ejemplo: juan@gmail.com → juan_gmail_com
+npx tsx scripts/grant-access.ts juan_gmail_com fundamentos-ia "Pago PayPal - Enero 2025"
 
 # Resultado:
-# ✅ juan_perez ahora tiene acceso a "Fundamentos de IA"
+# ✅ juan_gmail_com ahora tiene acceso a "Fundamentos de IA"
 ```
 
 **Método 3: SQL directo**
 
 ```sql
+-- Username es email sanitizado (ej: juan@gmail.com → juan_gmail_com)
 INSERT INTO user_courses (user_id, course_id, granted_by)
 SELECT p.id, c.id, 'Pago manual - Enero 2025'
 FROM profiles p, courses c
-WHERE p.username = 'juan_perez'
+WHERE p.username = 'juan_gmail_com'
   AND c.slug = 'fundamentos-ia';
 ```
 
@@ -1641,16 +1650,15 @@ WHERE p.username = 'juan_perez'
 
 ```sql
 DELETE FROM user_courses
-WHERE user_id = (SELECT id FROM profiles WHERE username = 'juan_perez')
+WHERE user_id = (SELECT id FROM profiles WHERE username = 'juan_gmail_com')
   AND course_id = (SELECT id FROM courses WHERE slug = 'fundamentos-ia');
 ```
 
 ### Ver usuarios de un curso
 
 ```sql
-SELECT 
+SELECT
   p.username,
-  p.email,
   uc.granted_at,
   uc.granted_by
 FROM user_courses uc

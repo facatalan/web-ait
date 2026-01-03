@@ -131,3 +131,60 @@ Sections use numbered badges with accent colors:
 
 - **Dynamic Tailwind Classes**: `Results.astro` uses dynamic classes like `bg-${color}/20` which may not purge correctly. Consider using static class names.
 - **Section Numbering**: Section "05" appears twice (Instructor and Decision).
+
+---
+
+## Platform Roadmap
+
+The landing page is evolving into a full course platform. See [specs/Courses.md](specs/Courses.md) for the complete technical specification.
+
+### Summary
+
+| Aspect | Details |
+|--------|---------|
+| **Domain** | www.ai-thinking.io |
+| **Target Stack** | Astro + React Islands + Supabase + Mux |
+| **Features** | Video courses, community per course, manual access control |
+| **Auth** | Supabase Auth (Email + Google OAuth) |
+| **Video** | Mux with signed tokens |
+| **Database** | PostgreSQL via Supabase with RLS |
+
+### Key Tables (Supabase)
+
+- `profiles` - User data extending auth.users
+- `courses` - Course metadata (synced from MDX)
+- `lessons` - Lesson metadata with Mux playback IDs
+- `user_courses` - Access control (manual grant)
+- `posts`, `comments`, `likes` - Community features
+- `lesson_progress` - Video progress tracking
+
+### Planned URL Structure
+
+| Route | Description |
+|-------|-------------|
+| `/cursos` | Course catalog |
+| `/cursos/[slug]` | Course detail page |
+| `/cursos/[slug]/[leccion]` | Lesson with video |
+| `/cursos/[slug]/comunidad` | Course community |
+| `/comunidad` | Aggregated feed |
+| `/login` | Authentication |
+| `/perfil` | User profile |
+
+### Content Structure
+
+```
+src/content/cursos/
+├── fundamentos-ia/
+│   ├── _curso.json           # Course metadata
+│   ├── 01-introduccion.mdx   # Lesson with frontmatter
+│   └── ...
+```
+
+### Implementation Phases
+
+1. **Foundation** - Supabase setup, tables, RLS
+2. **Authentication** - Login, registration, session
+3. **Courses** - Content Collections, sync script
+4. **Video Player** - Mux integration, access control
+5. **Community** - Feed, posts, likes, comments
+6. **Polish & Deploy** - Profile, UI/UX, testing
