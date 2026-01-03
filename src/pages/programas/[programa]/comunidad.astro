@@ -1,0 +1,45 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/astro/Header.astro';
+import Footer from '../../../components/astro/Footer.astro';
+import { getCollection } from 'astro:content';
+import { ProgramFeed } from '../../../components/react/community/ProgramFeed';
+
+export async function getStaticPaths() {
+  const programas = await getCollection('programas');
+
+  return programas.map((program) => {
+    const programSlug = program.id.replace('.mdx', '');
+    return {
+      params: { programa: programSlug },
+      props: {
+        programTitle: program.data.title,
+      },
+    };
+  });
+}
+
+const { programa } = Astro.params;
+const { programTitle } = Astro.props;
+---
+
+<Layout title={`Comunidad - ${programTitle}`}>
+  <Header />
+  <main class="min-h-screen pt-24 pb-16">
+    <div class="max-w-2xl mx-auto px-4">
+      <!-- Back link -->
+      <a
+        href={`/programas/${programa}`}
+        class="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Volver al programa
+      </a>
+
+      <ProgramFeed client:load programSlug={programa} programTitle={programTitle} />
+    </div>
+  </main>
+  <Footer />
+</Layout>

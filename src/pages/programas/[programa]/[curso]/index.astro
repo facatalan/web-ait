@@ -1,0 +1,132 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Header from '../../../../components/astro/Header.astro';
+import Footer from '../../../../components/astro/Footer.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const programas = await getCollection('programas');
+  const cursos = await getCollection('cursos');
+  const paths = [];
+
+  for (const program of programas) {
+    const programSlug = program.id.replace('.mdx', '');
+    const weeks = program.data.weeks || [];
+
+    for (const week of weeks) {
+      for (const courseSlug of week.courses) {
+        const courseLessons = cursos
+          .filter((l) => l.data.course === courseSlug)
+          .sort((a, b) => a.data.order - b.data.order);
+
+        if (courseLessons.length === 0) continue;
+
+        paths.push({
+          params: { programa: programSlug, curso: courseSlug },
+          props: {
+            program,
+            week,
+            courseTitle: courseLessons[0].data.courseTitle,
+            courseDescription: courseLessons[0].data.courseDescription,
+            lessons: courseLessons,
+          },
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+const { programa, curso } = Astro.params;
+const { program, week, courseTitle, courseDescription, lessons } = Astro.props;
+
+function formatDuration(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  return `${minutes} min`;
+}
+
+function getLessonSlug(lesson: typeof lessons[0]) {
+  return lesson.id.split('/').pop()?.replace('.mdx', '');
+}
+---
+
+<Layout title={`${courseTitle} - ${program.data.title}`}>
+  <Header />
+  <main class="min-h-screen pt-32 pb-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <a href={`/programas/${programa}`} class="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Volver a {program.data.title}
+      </a>
+
+      <div class="mb-8">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="px-2 py-1 bg-accent-purple/10 text-accent-purple text-xs rounded-full">
+            Semana {week.number}
+          </span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          {courseTitle}
+        </h1>
+        {courseDescription && (
+          <p class="text-gray-400 text-lg">
+            {courseDescription}
+          </p>
+        )}
+        <div class="flex items-center gap-4 mt-6 text-sm text-gray-500">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            {lessons.length} lecciones
+          </span>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        {lessons.map((lesson, index) => {
+          const lessonSlug = getLessonSlug(lesson);
+          return (
+            <a
+              href={`/programas/${programa}/${curso}/${lessonSlug}`}
+              class="group flex items-center gap-4 p-4 bg-dark-800 border border-white/10 rounded-xl
+                     hover:border-accent-blue/50 transition-all"
+            >
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-dark-700 flex items-center justify-center
+                        text-gray-400 group-hover:bg-accent-blue/20 group-hover:text-accent-blue transition-colors">
+                {index + 1}
+              </div>
+              <div class="flex-grow min-w-0">
+                <h3 class="text-white font-medium group-hover:text-accent-blue transition-colors truncate">
+                  {lesson.data.title}
+                </h3>
+                <p class="text-gray-500 text-sm truncate">
+                  {lesson.data.description}
+                </p>
+              </div>
+              <div class="flex-shrink-0 flex items-center gap-3">
+                {lesson.data.isFree && (
+                  <span class="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded-full">
+                    Gratis
+                  </span>
+                )}
+                {lesson.data.duration && (
+                  <span class="text-gray-500 text-sm">
+                    {formatDuration(lesson.data.duration)}
+                  </span>
+                )}
+                <svg class="w-5 h-5 text-gray-500 group-hover:text-accent-blue group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

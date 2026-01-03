@@ -1,0 +1,170 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Header from '../../../../components/astro/Header.astro';
+import Footer from '../../../../components/astro/Footer.astro';
+import { getCollection } from 'astro:content';
+import { ProtectedProgramLesson } from '../../../../components/react/courses/ProtectedProgramLesson';
+import { ProgramLessonNav } from '../../../../components/react/courses/ProgramLessonNav';
+
+export async function getStaticPaths() {
+  const programas = await getCollection('programas');
+  const cursos = await getCollection('cursos');
+  const paths = [];
+
+  for (const program of programas) {
+    const programSlug = program.id.replace('.mdx', '');
+    const weeks = program.data.weeks || [];
+
+    for (const week of weeks) {
+      for (const courseSlug of week.courses) {
+        const courseLessons = cursos
+          .filter((l) => l.data.course === courseSlug)
+          .sort((a, b) => a.data.order - b.data.order);
+
+        for (const lesson of courseLessons) {
+          const lessonSlug = lesson.id.split('/').pop()?.replace('.mdx', '') || '';
+
+          paths.push({
+            params: { programa: programSlug, curso: courseSlug, leccion: lessonSlug },
+            props: {
+              program,
+              week,
+              lesson,
+              courseLessons,
+            },
+          });
+        }
+      }
+    }
+  }
+
+  return paths;
+}
+
+const { programa, curso, leccion } = Astro.params;
+const { program, week, lesson, courseLessons } = Astro.props;
+const { Content } = await lesson.render();
+
+const currentIndex = courseLessons.findIndex(
+  (l) => l.id.split('/').pop()?.replace('.mdx', '') === leccion
+);
+const prevLesson = currentIndex > 0 ? courseLessons[currentIndex - 1] : null;
+const nextLesson = currentIndex < courseLessons.length - 1 ? courseLessons[currentIndex + 1] : null;
+
+function getLessonSlug(l: typeof lesson) {
+  return l.id.split('/').pop()?.replace('.mdx', '');
+}
+
+// Preparar datos para ProgramLessonNav
+const lessonsForNav = courseLessons.map((l) => ({
+  slug: getLessonSlug(l) || '',
+  title: l.data.title,
+  order: l.data.order,
+}));
+---
+
+<Layout title={`${lesson.data.title} - ${program.data.title}`}>
+  <Header />
+  <main class="min-h-screen pt-24 pb-16">
+    <div class="max-w-7xl mx-auto px-4 flex gap-8">
+      <!-- Sidebar -->
+      <aside class="hidden lg:block w-72 flex-shrink-0">
+        <ProgramLessonNav
+          client:load
+          programSlug={programa}
+          programTitle={program.data.title}
+          courseSlug={curso}
+          courseTitle={lesson.data.courseTitle}
+          weekNumber={week.number}
+          weekTitle={week.title}
+          currentLessonSlug={leccion}
+          lessons={lessonsForNav}
+        />
+      </aside>
+
+      <!-- Content -->
+      <article class="flex-grow min-w-0 max-w-3xl">
+        <!-- Protected Content -->
+        <ProtectedProgramLesson
+          client:load
+          programSlug={programa}
+          courseSlug={curso}
+          lessonSlug={leccion}
+          videoId={lesson.data.videoId}
+          isFree={lesson.data.isFree}
+        >
+          <!-- Lesson info -->
+          <div class="mb-8">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-sm text-gray-500">Semana {week.number} - Leccion {currentIndex + 1}</span>
+              {lesson.data.isFree && (
+                <span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-xs rounded-full">
+                  Gratis
+                </span>
+              )}
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-white">
+              {lesson.data.title}
+            </h1>
+          </div>
+
+          <!-- MDX Content -->
+          <div class="prose prose-invert prose-lg max-w-none
+                      prose-headings:text-white prose-headings:font-bold
+                      prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
+                      prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
+                      prose-p:text-gray-300 prose-p:leading-relaxed
+                      prose-a:text-accent-blue prose-a:no-underline hover:prose-a:underline
+                      prose-strong:text-white
+                      prose-ul:text-gray-300 prose-ol:text-gray-300
+                      prose-li:marker:text-accent-blue
+                      prose-code:text-accent-cyan prose-code:bg-dark-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+                      prose-pre:bg-dark-800 prose-pre:border prose-pre:border-white/10
+                      prose-table:text-gray-300
+                      prose-th:text-white prose-th:bg-dark-800
+                      prose-td:border-white/10">
+            <Content />
+          </div>
+        </ProtectedProgramLesson>
+
+        <!-- Navigation -->
+        <div class="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+          {prevLesson ? (
+            <a
+              href={`/programas/${programa}/${curso}/${getLessonSlug(prevLesson)}`}
+              class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              <span>Anterior</span>
+            </a>
+          ) : <div />}
+
+          {nextLesson ? (
+            <a
+              href={`/programas/${programa}/${curso}/${getLessonSlug(nextLesson)}`}
+              class="flex items-center gap-2 px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white rounded-lg transition-colors"
+            >
+              <span>Siguiente leccion</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          ) : (
+            <a
+              href={`/programas/${programa}`}
+              class="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+            >
+              <span>Volver al programa</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </a>
+          )}
+        </div>
+      </article>
+    </div>
+  </main>
+  <Footer />
+</Layout>

@@ -15,4 +15,22 @@ const cursos = defineCollection({
   }),
 });
 
-export const collections = { cursos };
+const weekSchema = z.object({
+  number: z.number(),
+  title: z.string(),
+  description: z.string().optional(),
+  courses: z.array(z.string()),
+});
+
+const programas = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    thumbnail: z.string().optional(),
+    isActive: z.boolean().default(true),
+    weeks: z.array(weekSchema),
+  }),
+});
+
+export const collections = { cursos, programas };
