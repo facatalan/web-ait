@@ -1,0 +1,68 @@
+---
+title: "APIs y Automatización Avanzada"
+description: "Lleva tus automatizaciones al siguiente nivel con APIs"
+videoId: ""
+duration: 1020
+isFree: false
+order: 3
+course: "automatizacion-ia"
+courseTitle: "Automatización con IA"
+courseDescription: "Aprende a automatizar tareas repetitivas usando herramientas de IA"
+---
+
+# APIs y Automatización Avanzada
+
+Para quienes quieren ir más allá de las herramientas no-code.
+
+## ¿Qué es una API?
+
+Una API (Application Programming Interface) permite que diferentes programas se comuniquen entre sí.
+
+## OpenAI API
+
+### Autenticación
+```javascript
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+```
+
+### Llamada básica
+```javascript
+const response = await openai.chat.completions.create({
+  model: "gpt-4",
+  messages: [
+    { role: "user", content: "Hola, ¿cómo estás?" }
+  ]
+});
+```
+
+## Anthropic API (Claude)
+
+```javascript
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY
+});
+
+const message = await anthropic.messages.create({
+  model: "claude-3-opus-20240229",
+  max_tokens: 1024,
+  messages: [
+    { role: "user", content: "Analiza este texto..." }
+  ]
+});
+```
+
+## Casos de Uso Avanzados
+
+### Pipeline de procesamiento
+1. Recibir documento
+2. Extraer texto (OCR si es imagen)
+3. Analizar con IA
+4. Guardar resultados en base de datos
+5. Notificar al usuario
+
+### Agentes autónomos
+- Investigación automática
+- Generación de contenido en lote
+- Monitoreo y alertas inteligentes
