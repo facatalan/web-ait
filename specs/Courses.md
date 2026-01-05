@@ -421,4 +421,152 @@ src/
 
 ---
 
+## 9. Lead Magnets
+
+Sistema para capturar emails a cambio de recursos descargables.
+
+### Arquitectura
+
+```
+src/
+├── data/
+│   └── recursos.ts          # Catálogo centralizado de recursos
+├── pages/
+│   └── recursos/
+│       └── [slug].astro     # Landing page template
+└── components/
+    └── react/
+        └── leads/
+            └── LeadCaptureForm.tsx  # Formulario de captura
+
+supabase/
+└── functions/
+    └── send-lead-magnet/
+        └── index.ts         # Edge Function (envío de emails)
+```
+
+### Tabla `leads`
+
+```sql
+CREATE TABLE leads (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email TEXT NOT NULL,
+  document_slug TEXT NOT NULL,
+  source TEXT,  -- utm_source, landing page, etc.
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  email_sent_at TIMESTAMPTZ,
+  UNIQUE(email, document_slug)  -- evita duplicados por documento
+);
+
+-- Índices para analytics
+CREATE INDEX idx_leads_document ON leads(document_slug);
+CREATE INDEX idx_leads_created ON leads(created_at);
+
+-- RLS: solo lectura desde service role (no desde cliente)
+ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
+-- No policies = solo accesible via service role o edge functions
+```
+
+### Flujo
+
+```
+Landing /recursos/[slug]
+    → Usuario ingresa email
+    → LeadCaptureForm llama Edge Function con:
+        - email, documentSlug, documentTitle, documentUrl, source
+    → Edge Function:
+        → Guarda lead en tabla `leads`
+        → Envía email con Resend (incluye link al documento)
+    → Usuario recibe email con botón de descarga
+```
+
+### Catálogo de Recursos
+
+Archivo: `src/data/recursos.ts`
+
+```typescript
+export type Recurso = {
+  title: string;       // Título del recurso
+  description: string; // Descripción para la landing
+  url: string;         // URL del documento (puede ser externa)
+  benefits: string[];  // Lista de beneficios (4 items)
+  pages: string;       // Número de páginas/duración
+};
+
+export const RECURSOS: Record<string, Recurso> = {
+  'mi-recurso': {
+    title: 'Mi Recurso',
+    description: 'Descripción del recurso...',
+    url: 'https://ejemplo.com/documento.pdf',
+    benefits: [
+      'Beneficio 1',
+      'Beneficio 2',
+      'Beneficio 3',
+      'Beneficio 4',
+    ],
+    pages: '10',
+  },
+};
+```
+
+### Agregar Nuevo Recurso
+
+**Solo 1 paso:** Editar `src/data/recursos.ts`
+
+```typescript
+// Agregar nueva entrada al objeto RECURSOS
+'nuevo-recurso': {
+  title: 'Nuevo Recurso',
+  description: 'Descripción...',
+  url: 'https://notion.so/mi-documento',  // Cualquier URL
+  benefits: ['...'],
+  pages: '5',
+},
+```
+
+La landing se genera automáticamente en: `/recursos/nuevo-recurso`
+
+### URLs Soportadas
+
+El sistema acepta cualquier URL pública:
+- PDFs propios: `https://www.ai-thinking.io/documents/guia.pdf`
+- Notion: `https://notion.so/documento-xyz`
+- Google Drive: `https://drive.google.com/file/d/xxx/view`
+- Dropbox, etc.
+
+### Edge Function
+
+**Endpoint:** `POST /functions/v1/send-lead-magnet`
+
+**Parámetros:**
+```json
+{
+  "email": "user@example.com",
+  "documentSlug": "caso-carolina",
+  "documentTitle": "Caso Carolina",
+  "documentUrl": "https://notion.so/...",
+  "source": "landing"
+}
+```
+
+**Secrets requeridos:**
+- `RESEND_API_KEY` - API key de Resend
+- `SUPABASE_URL` - URL del proyecto (automático)
+- `SUPABASE_SERVICE_ROLE_KEY` - Service role key (automático)
+
+**Deploy:**
+```bash
+supabase functions deploy send-lead-magnet --project-ref PROJECT_ID --no-verify-jwt
+```
+
+### Recursos Actuales
+
+| Slug | Título | URL |
+|------|--------|-----|
+| `guia-ia-profesionales` | Guía de IA para Profesionales | PDF propio |
+| `guia-madurez-ai` | Guía de Madurez AI | PDF propio |
+| `caso-carolina` | Caso Carolina: De 8h a 2h | Notion |
+
+---
+
 *Documento actualizado: Enero 2025*

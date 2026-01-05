@@ -18,11 +18,11 @@ export async function getStaticPaths() {
     for (const week of weeks) {
       for (const courseSlug of week.courses) {
         const courseLessons = cursos
-          .filter((l) => l.data.course === courseSlug)
+          .filter((l) => l.data.course === courseSlug && l.id.endsWith('.mdx')) // Solo MDX (no .md)
           .sort((a, b) => a.data.order - b.data.order);
 
         for (const lesson of courseLessons) {
-          const lessonSlug = lesson.id.split('/').pop()?.replace('.mdx', '') || '';
+          const lessonSlug = lesson.id.split('/').pop()?.replace(/\.mdx?$/, '') || '';
 
           paths.push({
             params: { programa: programSlug, curso: courseSlug, leccion: lessonSlug },
@@ -46,13 +46,13 @@ const { program, week, lesson, courseLessons } = Astro.props;
 const { Content } = await lesson.render();
 
 const currentIndex = courseLessons.findIndex(
-  (l) => l.id.split('/').pop()?.replace('.mdx', '') === leccion
+  (l) => l.id.split('/').pop()?.replace(/\.mdx?$/, '') === leccion
 );
 const prevLesson = currentIndex > 0 ? courseLessons[currentIndex - 1] : null;
 const nextLesson = currentIndex < courseLessons.length - 1 ? courseLessons[currentIndex + 1] : null;
 
 function getLessonSlug(l: typeof lesson) {
-  return l.id.split('/').pop()?.replace('.mdx', '');
+  return l.id.split('/').pop()?.replace(/\.mdx?$/, '');
 }
 
 // Preparar datos para ProgramLessonNav
@@ -112,7 +112,61 @@ const lessonsForNav = courseLessons.map((l) => ({
           <div class="prose prose-invert prose-lg max-w-none">
             <Content />
           </div>
+
         </ProtectedProgramLesson>
+
+        <!-- Attachments (fuera de protección) -->
+        {lesson.data.attachments && lesson.data.attachments.length > 0 && (
+          <div class="mt-12 pt-8 border-t border-white/10">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <svg class="w-5 h-5 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Recursos de la lección
+            </h3>
+            <div class="space-y-2">
+              {lesson.data.attachments.map((attachment) => (
+                <a
+                  href={attachment.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-3 p-3 bg-dark-800 border border-white/10 rounded-lg hover:border-accent-blue/50 transition-colors group"
+                >
+                  <div class="w-10 h-10 rounded-lg bg-accent-blue/10 flex items-center justify-center flex-shrink-0">
+                    {attachment.type === 'pdf' ? (
+                      <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zm-2.5 9.5a.5.5 0 01.5.5v3a.5.5 0 01-1 0v-3a.5.5 0 01.5-.5zm3 0a.5.5 0 01.5.5v1.5h1a.5.5 0 010 1h-1V17a.5.5 0 01-1 0v-3a.5.5 0 01.5-.5zm-6 0h1a1 1 0 011 1v1a1 1 0 01-1 1h-1v1a.5.5 0 01-1 0v-3.5a.5.5 0 01.5-.5h.5z"/>
+                      </svg>
+                    ) : attachment.type === 'doc' || attachment.type === 'docx' ? (
+                      <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM8 12h8v1H8v-1zm0 3h8v1H8v-1zm0 3h5v1H8v-1z"/>
+                      </svg>
+                    ) : attachment.type === 'xls' || attachment.type === 'xlsx' ? (
+                      <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM8 12h2v2H8v-2zm0 4h2v2H8v-2zm4-4h2v2h-2v-2zm0 4h2v2h-2v-2z"/>
+                      </svg>
+                    ) : (
+                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                      </svg>
+                    )}
+                  </div>
+                  <div class="flex-grow min-w-0">
+                    <p class="text-white font-medium truncate group-hover:text-accent-blue transition-colors">
+                      {attachment.title}
+                    </p>
+                    {attachment.type && (
+                      <p class="text-xs text-gray-500 uppercase">{attachment.type}</p>
+                    )}
+                  </div>
+                  <svg class="w-5 h-5 text-gray-500 group-hover:text-accent-blue transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         <!-- Navigation -->
         <div class="flex items-center justify-between mt-12 pt-8 border-t border-white/10">

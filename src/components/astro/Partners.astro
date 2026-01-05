@@ -10,11 +10,10 @@ const partners = [
 
 <section class="py-16 bg-dark-800/50 border-y border-white/5">
   <div class="max-w-7xl mx-auto px-6">
-    <p class="text-center text-gray-500 text-sm mb-8 uppercase tracking-wider">Funciona con las principales IAs</p>
     <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
       {partners.map((partner) => (
-        <div class="flex items-center justify-center h-12 opacity-70 hover:opacity-100 transition-opacity">
-          <img src={partner.logo} alt={partner.name} class="h-8 md:h-10 w-auto object-contain brightness-0 invert" />
+        <div class="flex items-center justify-center h-20 opacity-70 hover:opacity-100 transition-opacity">
+          <img src={partner.logo} alt={partner.name} class="h-14 md:h-[70px] w-auto object-contain brightness-0 invert" />
         </div>
       ))}
     </div>

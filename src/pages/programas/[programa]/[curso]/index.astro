@@ -16,7 +16,7 @@ export async function getStaticPaths() {
     for (const week of weeks) {
       for (const courseSlug of week.courses) {
         const courseLessons = cursos
-          .filter((l) => l.data.course === courseSlug)
+          .filter((l) => l.data.course === courseSlug && l.id.endsWith('.mdx')) // Solo MDX (no .md)
           .sort((a, b) => a.data.order - b.data.order);
 
         if (courseLessons.length === 0) continue;
@@ -47,7 +47,7 @@ function formatDuration(seconds: number): string {
 }
 
 function getLessonSlug(lesson: typeof lessons[0]) {
-  return lesson.id.split('/').pop()?.replace('.mdx', '');
+  return lesson.id.split('/').pop()?.replace(/\.mdx?$/, '');
 }
 ---
 

@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/astro/Header.astro';
+import { LeadCaptureForm } from '../../components/react/leads/LeadCaptureForm';
+import { RECURSOS, type Recurso } from '../../data/recursos';
+
+export function getStaticPaths() {
+  // Importamos aquí también para que Astro pueda acceder en build time
+  const recursos = import.meta.glob('../../data/recursos.ts', { eager: true });
+  const { RECURSOS } = Object.values(recursos)[0] as { RECURSOS: Record<string, Recurso> };
+
+  return Object.entries(RECURSOS).map(([slug, recurso]) => ({
+    params: { slug },
+    props: { recurso },
+  }));
+}
+
+const { slug } = Astro.params;
+const { recurso } = Astro.props as { recurso: Recurso };
+---
+
+<Layout title={`${recurso.title} | AIThinking`}>
+  <Header />
+
+  <main class="min-h-screen pt-24 pb-16">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden">
+      <!-- Background glow -->
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-blue/20 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-purple/20 rounded-full blur-3xl"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-12">
+          <span class="inline-block px-4 py-1 bg-accent-blue/20 text-accent-blue rounded-full text-sm font-medium mb-6">
+            Recurso Gratuito
+          </span>
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+            {recurso.title}
+          </h1>
+          <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+            {recurso.description}
+          </p>
+        </div>
+
+        <!-- Benefits Grid -->
+        <div class="grid md:grid-cols-2 gap-4 mb-12">
+          {recurso.benefits.map((benefit) => (
+            <div class="flex items-start gap-3 bg-dark-800 border border-white/10 rounded-xl p-4">
+              <div class="flex-shrink-0 w-6 h-6 rounded-full bg-accent-blue/20 flex items-center justify-center mt-0.5">
+                <svg class="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <p class="text-gray-300">{benefit}</p>
+            </div>
+          ))}
+        </div>
+
+        <!-- Lead Capture Form -->
+        <div class="max-w-xl mx-auto">
+          <div class="bg-dark-800 border border-white/10 rounded-2xl p-8">
+            <div class="text-center mb-6">
+              <p class="text-gray-400">
+                Ingresa tu email para recibir la guía ({recurso.pages} páginas)
+              </p>
+            </div>
+            <LeadCaptureForm
+              client:load
+              documentSlug={slug}
+              documentTitle={recurso.title}
+              documentUrl={recurso.url}
+              buttonText="Enviar a mi correo"
+              source="landing"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer minimal -->
+  <footer class="py-8 border-t border-white/10">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <a href="/" class="text-gray-500 hover:text-white transition-colors">
+        ← Volver a AIThinking
+      </a>
+    </div>
+  </footer>
+</Layout>

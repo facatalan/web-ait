@@ -23,3 +23,6 @@ npm-debug.log*
 
 # Local Netlify folder
 .netlify
+
+# Content source (symlink to iCloud)
+FAIT-6w

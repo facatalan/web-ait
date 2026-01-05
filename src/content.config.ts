@@ -1,5 +1,12 @@
 import { defineCollection, z } from 'astro:content';
 
+// Schema para attachments (documentos adjuntos)
+const attachmentSchema = z.object({
+  title: z.string(),
+  url: z.string(),
+  type: z.enum(['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'other']).optional(),
+});
+
 const cursos = defineCollection({
   type: 'content',
   schema: z.object({
@@ -12,6 +19,7 @@ const cursos = defineCollection({
     course: z.string(),
     courseTitle: z.string(),
     courseDescription: z.string().optional(),
+    attachments: z.array(attachmentSchema).optional(),
   }),
 });
 

@@ -1,0 +1,88 @@
+---
+interface Props {
+  title: string;
+  defaultOpen?: boolean;
+}
+
+const { title, defaultOpen = false } = Astro.props;
+---
+
+<details class="group bg-dark-800 border border-white/10 rounded-lg overflow-hidden" open={defaultOpen}>
+  <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-dark-700 transition-colors list-none">
+    <span class="font-medium text-white">{title}</span>
+    <svg
+      class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </summary>
+  <div class="expandable-content p-4 pt-2 border-t border-white/10 prose prose-invert prose-sm max-w-none">
+    <slot />
+  </div>
+</details>
+
+<style>
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Interlineado más compacto dentro del expandible */
+  .expandable-content {
+    line-height: 1.5;
+  }
+
+  .expandable-content :global(p) {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .expandable-content :global(ul),
+  .expandable-content :global(ol) {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-left: 1.25em;
+  }
+
+  .expandable-content :global(li) {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+  }
+
+  .expandable-content :global(h1),
+  .expandable-content :global(h2),
+  .expandable-content :global(h3),
+  .expandable-content :global(h4) {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+  }
+
+  .expandable-content :global(hr) {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  .expandable-content :global(table) {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+  }
+
+  .expandable-content :global(blockquote) {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+  }
+
+  /* Texto monoespaciado más compacto */
+  .expandable-content :global(pre),
+  .expandable-content :global(code) {
+    line-height: 1.3;
+  }
+
+  .expandable-content :global(pre) {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+    padding: 0.75em;
+  }
+</style>
