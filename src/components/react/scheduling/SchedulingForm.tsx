@@ -27,15 +27,25 @@ const initialData: FormData = {
 
 const CALENDAR_URL = 'https://calendar.app.google/tAUMt9rzKuxNGobK9';
 
+// Validaciones
+const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const isValidPhone = (phone: string) => /^[\d\s+()-]{8,}$/.test(phone.replace(/\s/g, ''));
+const isValidName = (name: string) => name.trim().length >= 3 && name.trim().includes(' ');
+
 export function SchedulingForm() {
   const [step, setStep] = useState(0);
   const [data, setData] = useState<FormData>(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const totalSteps = 7; // datos + 5 preguntas + final
 
   const updateField = (field: keyof FormData, value: string) => {
     setData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const markTouched = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
   const nextStep = () => {
@@ -44,10 +54,30 @@ export function SchedulingForm() {
     }
   };
 
+  const getFieldError = (field: string): string | null => {
+    if (!touched[field]) return null;
+    switch (field) {
+      case 'name':
+        if (!data.name.trim()) return 'Ingresa tu nombre';
+        if (!isValidName(data.name)) return 'Ingresa nombre y apellido';
+        return null;
+      case 'email':
+        if (!data.email) return 'Ingresa tu email';
+        if (!isValidEmail(data.email)) return 'Email inválido';
+        return null;
+      case 'phone':
+        if (!data.phone) return 'Ingresa tu teléfono';
+        if (!isValidPhone(data.phone)) return 'Teléfono inválido (mín. 8 dígitos)';
+        return null;
+      default:
+        return null;
+    }
+  };
+
   const canProceed = () => {
     switch (step) {
       case 0:
-        return data.name && data.phone && data.email;
+        return isValidName(data.name) && isValidEmail(data.email) && isValidPhone(data.phone);
       case 1:
         return data.q1_usage;
       case 2:
@@ -158,9 +188,15 @@ export function SchedulingForm() {
               type="text"
               value={data.name}
               onChange={(e) => updateField('name', e.target.value)}
-              placeholder="Tu nombre"
-              className="w-full px-4 py-3 bg-dark-800 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:border-accent-purple focus:outline-none transition-colors"
+              onBlur={() => markTouched('name')}
+              placeholder="Nombre y apellido"
+              className={`w-full px-4 py-3 bg-dark-800 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-colors ${
+                getFieldError('name') ? 'border-red-500' : 'border-white/10 focus:border-accent-purple'
+              }`}
             />
+            {getFieldError('name') && (
+              <p className="text-red-400 text-xs mt-1">{getFieldError('name')}</p>
+            )}
           </div>
 
           <div>
@@ -169,9 +205,15 @@ export function SchedulingForm() {
               type="tel"
               value={data.phone}
               onChange={(e) => updateField('phone', e.target.value)}
+              onBlur={() => markTouched('phone')}
               placeholder="+56 9 1234 5678"
-              className="w-full px-4 py-3 bg-dark-800 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:border-accent-purple focus:outline-none transition-colors"
+              className={`w-full px-4 py-3 bg-dark-800 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-colors ${
+                getFieldError('phone') ? 'border-red-500' : 'border-white/10 focus:border-accent-purple'
+              }`}
             />
+            {getFieldError('phone') && (
+              <p className="text-red-400 text-xs mt-1">{getFieldError('phone')}</p>
+            )}
           </div>
 
           <div>
@@ -180,9 +222,15 @@ export function SchedulingForm() {
               type="email"
               value={data.email}
               onChange={(e) => updateField('email', e.target.value)}
+              onBlur={() => markTouched('email')}
               placeholder="tu@email.com"
-              className="w-full px-4 py-3 bg-dark-800 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:border-accent-purple focus:outline-none transition-colors"
+              className={`w-full px-4 py-3 bg-dark-800 border rounded-xl text-white placeholder-gray-500 focus:outline-none transition-colors ${
+                getFieldError('email') ? 'border-red-500' : 'border-white/10 focus:border-accent-purple'
+              }`}
             />
+            {getFieldError('email') && (
+              <p className="text-red-400 text-xs mt-1">{getFieldError('email')}</p>
+            )}
           </div>
         </div>
       )}
