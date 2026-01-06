@@ -139,7 +139,7 @@ export function SchedulingForm() {
     selected: boolean;
   }) => (
     <label
-      className={`block w-full p-4 rounded-xl border cursor-pointer transition-all ${
+      className={`flex items-center gap-3 w-full p-4 rounded-xl border cursor-pointer transition-all ${
         selected
           ? 'border-accent-purple bg-accent-purple/10 text-white'
           : 'border-white/10 bg-dark-800 text-gray-300 hover:border-white/20'
@@ -153,6 +153,11 @@ export function SchedulingForm() {
         onChange={() => updateField(field, value)}
         className="sr-only"
       />
+      <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+        selected ? 'border-accent-purple' : 'border-gray-500'
+      }`}>
+        {selected && <span className="w-2.5 h-2.5 rounded-full bg-accent-purple" />}
+      </span>
       <span className="text-base">{label}</span>
     </label>
   );
