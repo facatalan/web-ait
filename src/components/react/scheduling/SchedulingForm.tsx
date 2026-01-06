@@ -151,7 +151,7 @@ export function SchedulingForm() {
         value={value}
         checked={selected}
         onChange={() => updateField(field, value)}
-        className="sr-only"
+        className="absolute opacity-0 w-0 h-0"
       />
       <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
         selected ? 'border-accent-purple' : 'border-gray-500'
