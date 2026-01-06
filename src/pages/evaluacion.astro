@@ -1,0 +1,632 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+
+const painPoints = [
+  {
+    reality: 'Trabajas 50-60 hrs/semana pero solo mantienes — nunca avanzas estratégicamente',
+    feeling: '"Termino el viernes agotado y no avancé nada importante"',
+  },
+  {
+    reality: 'Usas ChatGPT a diario pero los outputs son 6/10 que igual reescribes',
+    feeling: '"Estoy arañando la superficie"',
+  },
+  {
+    reality: 'Ves a colegas o competidores liderando la conversación de IA',
+    feeling: '"Me están dejando fuera"',
+  },
+  {
+    reality: 'Tomaste 2-3 cursos de IA que no cambiaron nada',
+    feeling: '"Otro curso que no voy a aplicar"',
+  },
+  {
+    reality: 'El mes pasado rechazaste clientes porque no tenías capacidad',
+    feeling: '"Estoy dejando dinero sobre la mesa"',
+  },
+];
+
+const transformations = [
+  {
+    before: 'Atrapado en lo operativo 60 hrs/semana',
+    after: '10-15 hrs/semana recuperadas para lo estratégico',
+  },
+  {
+    before: 'Outputs de IA genéricos que reescribes',
+    after: 'Outputs 8-9/10 consistentes con TU contexto',
+  },
+  {
+    before: 'Rechazando clientes por falta de capacidad',
+    after: '+30-40% de capacidad sin contratar',
+  },
+  {
+    before: 'Viendo a otros liderar la conversación de IA',
+    after: 'Siendo el referente de IA en tu industria',
+  },
+  {
+    before: 'Cursos abandonados, dinero perdido',
+    after: 'Sistema implementado con ROI medible',
+  },
+];
+
+const forYou = [
+  'Eres profesional de servicios B2B (consultor, director, gerente, abogado, arquitecto, contador)',
+  'Tienes 30-50 años y 5+ años de experiencia en tu campo',
+  'Trabajas en empresa de 50-500 empleados o eres consultor independiente',
+  'Ya usas ChatGPT pero sin sistema — sientes que "arañas la superficie"',
+  'Quieres amplificar tu expertise, no solo automatizar tareas',
+  'Puedes invertir 2-3 hrs/semana durante 8 semanas',
+];
+
+const notForYou = [
+  'Buscas "prompts mágicos" para automatizar sin pensar',
+  'Quieres delegar 100% tu trabajo a la IA',
+  'Eres junior o no tienes expertise que amplificar',
+  'Eres vendedor o consultor de IA (competencia)',
+  'No puedes comprometerte a 2-3 hrs/semana',
+  'Esperas que la herramienta haga la magia sola',
+];
+
+const results = [
+  { metric: 'Tiempo recuperado', value: '10-15 horas/semana' },
+  { metric: 'Calidad de outputs IA', value: 'De 6/10 a 8-9/10' },
+  { metric: 'Capacidad de servicio', value: '+30-40% sin contratar' },
+  { metric: 'Procesos transformados', value: '3+ documentados' },
+  { metric: 'Posicionamiento', value: 'Certificación + credibilidad' },
+];
+
+const cases = [
+  {
+    title: 'Consultor Estratégico',
+    details: '45 años, Buenos Aires',
+    process: 'Análisis de industria para pitch',
+    before: '10 horas',
+    after: '3 horas + análisis más riguroso',
+    roi: '28 horas/mes = 1 proyecto adicional/trimestre',
+  },
+  {
+    title: 'Abogado Corporativo',
+    details: '38 años, Santiago',
+    process: 'Research de precedentes + memo legal',
+    before: '8 horas',
+    after: '2 horas + cobertura más amplia',
+    roi: '24 horas/mes liberadas para trabajo estratégico',
+  },
+  {
+    title: 'Directora de Consultoría',
+    details: '42 años, Ciudad de México',
+    process: 'Propuestas comerciales + análisis de competencia',
+    before: '6 horas por propuesta',
+    after: '2 horas + insights diferenciadores',
+    roi: 'Posicionamiento como líder en IA dentro de su firma',
+  },
+];
+
+const objections = [
+  {
+    question: '"Ya probé cursos de IA y no me funcionaron"',
+    answer: 'Los cursos genéricos enseñan herramientas, no metodología. Son teóricos, genéricos, y no aplican a tu negocio. AI-Thinking está diseñado para profesionales B2B que necesitan AMPLIFICAR su expertise. Implementas en TU trabajo desde Semana 1 — no casos ficticios.',
+  },
+  {
+    question: '"No tengo tiempo para otro programa"',
+    answer: 'Ese es exactamente el problema que resolvemos. Inviertes 24 horas totales para recuperar 600+ horas/año. La falta de tiempo es la razón por la que necesitas esto — es la paradoja.',
+  },
+  {
+    question: '"No soy técnico"',
+    answer: 'No necesitas ser técnico. Si puedes escribir un email, puedes implementar esto. El 100% de los profesionales en el programa NO programan.',
+  },
+  {
+    question: '"¿Qué pasa si no me funciona?"',
+    answer: 'Garantía: 8 horas ahorradas en 4 semanas o devolución completa. Sin preguntas. Sin letra chica.',
+  },
+];
+
+const calendlyUrl = 'https://calendly.com/aithinking/evaluacion';
+---
+
+<Layout title="Evaluación AI-Thinking - Agenda tu Llamada Gratuita">
+  <Header />
+  <main>
+    <!-- HERO -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 overflow-hidden">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-blue/20 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-purple/20 rounded-full blur-3xl"></div>
+
+      <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+          Trabajas 60 horas semanales. Usas ChatGPT todos los días.
+          <span class="gradient-text"> Y sigues sintiéndote atrás.</span>
+        </h1>
+
+        <p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto leading-relaxed">
+          Agenda una llamada de evaluación de 20 minutos para saber si AI-Thinking es el sistema que necesitas para <strong class="text-white">amplificar tu expertise</strong> — no solo acelerar tus tareas.
+        </p>
+
+        <a
+          href={calendlyUrl}
+          target="_blank"
+          class="inline-block px-10 py-5 bg-gradient-to-r from-accent-blue to-accent-purple rounded-full font-semibold text-xl hover:opacity-90 transition-opacity glow"
+        >
+          Agendar mi Evaluación Gratuita
+        </a>
+      </div>
+
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- PAIN VALIDATION -->
+    <section class="py-24 bg-dark-800/30">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+          ¿Te suena familiar?
+        </h2>
+
+        <div class="space-y-4">
+          {painPoints.map((point) => (
+            <div class="grid md:grid-cols-2 gap-4 p-6 bg-dark-900/50 rounded-xl border border-white/5">
+              <div class="flex items-start gap-3">
+                <span class="text-red-400 mt-1">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <span class="text-gray-300">{point.reality}</span>
+              </div>
+              <div class="text-gray-500 italic md:text-right">{point.feeling}</div>
+            </div>
+          ))}
+        </div>
+
+        <p class="text-center text-xl text-accent-purple font-semibold mt-10">
+          Si marcaste 3 o más, esta llamada es para ti.
+        </p>
+      </div>
+    </section>
+
+    <!-- THE PROBLEM -->
+    <section class="py-24">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+          Lo que el mercado te vende vs. Lo que realmente necesitas
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-16">
+          <div class="p-8 bg-red-500/10 border border-red-500/20 rounded-2xl">
+            <h3 class="text-xl font-bold text-red-400 mb-6">EL MERCADO TE DICE:</h3>
+            <ul class="space-y-3 text-gray-400">
+              <li>"Automatiza todo con ChatGPT"</li>
+              <li>"Aprende prompting avanzado"</li>
+              <li>"Esta herramienta lo cambia todo"</li>
+            </ul>
+            <div class="mt-6 pt-6 border-t border-red-500/20">
+              <p class="text-sm text-gray-500">
+                <strong>¿El resultado?</strong><br />
+                73% del uso de ChatGPT es superficial<br />
+                60-70% abandona los cursos<br />
+                51% siente que aprender IA es "un segundo trabajo"
+              </p>
+            </div>
+          </div>
+
+          <div class="p-8 bg-green-500/10 border border-green-500/20 rounded-2xl">
+            <h3 class="text-xl font-bold text-green-400 mb-6">LO QUE NECESITAS:</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li>Un sistema que amplifica TU expertise</li>
+              <li>Metodología aplicada a TU trabajo real</li>
+              <li>Resultados medibles desde la primera semana</li>
+            </ul>
+            <div class="mt-6 pt-6 border-t border-green-500/20">
+              <p class="text-sm text-gray-400">
+                <strong>El resultado:</strong><br />
+                10-15 horas recuperadas por semana<br />
+                Outputs de IA que SÍ usas<br />
+                ROI medible en semanas, no meses
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-8 bg-dark-800 rounded-2xl border border-white/10">
+          <p class="text-lg text-gray-300 mb-6">
+            <strong class="text-white">El problema no es que no sepas usar ChatGPT.</strong><br />
+            El problema es que nadie te enseñó a <span class="text-accent-purple font-bold">PENSAR</span> con IA.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6 mt-8">
+            <div class="p-6 bg-dark-900/50 rounded-xl">
+              <h4 class="font-bold text-red-400 mb-3">ACELERACIÓN (lo que te vendieron)</h4>
+              <ul class="text-sm text-gray-400 space-y-2">
+                <li>= Haces lo mismo, más rápido</li>
+                <li>= Te conviertes en un junior eficiente</li>
+                <li>= Tu hora vale MENOS</li>
+              </ul>
+            </div>
+            <div class="p-6 bg-dark-900/50 rounded-xl">
+              <h4 class="font-bold text-green-400 mb-3">AMPLIFICACIÓN (lo que necesitas)</h4>
+              <ul class="text-sm text-gray-300 space-y-2">
+                <li>= Haces lo que antes era IMPOSIBLE</li>
+                <li>= Tu expertise se multiplica</li>
+                <li>= Tu hora vale 3x MÁS</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <blockquote class="mt-10 p-6 border-l-4 border-accent-purple bg-dark-800/50 rounded-r-xl">
+          <p class="text-lg text-gray-300 italic">
+            "Si recuperas 15 horas semanales con IA, pero tus resultados se ven idénticos a cualquier junior con ChatGPT, ¿realmente solucionaste el problema?"
+          </p>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- TRANSFORMATION -->
+    <section class="py-24 bg-dark-800/30">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-center">
+          De dónde vienes → A dónde puedes llegar
+        </h2>
+        <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+          La metodología: Ciclo Amplificador + Digital Brain
+        </p>
+
+        <div class="space-y-4 mb-16">
+          {transformations.map((t) => (
+            <div class="grid md:grid-cols-2 gap-4 items-center">
+              <div class="p-5 bg-red-500/10 border border-red-500/20 rounded-xl">
+                <span class="text-red-400 text-sm font-medium">ANTES</span>
+                <p class="text-gray-400 mt-1">{t.before}</p>
+              </div>
+              <div class="p-5 bg-green-500/10 border border-green-500/20 rounded-xl">
+                <span class="text-green-400 text-sm font-medium">DESPUÉS</span>
+                <p class="text-gray-200 mt-1">{t.after}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="p-8 bg-dark-900 rounded-2xl border border-accent-purple/30 text-center">
+          <p class="text-lg text-gray-300">
+            <strong class="text-white">Principio central:</strong> Un consultor de 20 años de experiencia + Digital Brain ≠ 5 juniors con ChatGPT.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOR WHOM -->
+    <section class="py-24">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+          ¿Para quién es esta llamada?
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="p-8 bg-green-500/10 border border-green-500/20 rounded-2xl">
+            <h3 class="text-xl font-bold text-green-400 mb-6 flex items-center gap-2">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              Es para ti si:
+            </h3>
+            <ul class="space-y-4">
+              {forYou.map((item) => (
+                <li class="flex items-start gap-3 text-gray-300">
+                  <span class="text-green-400 mt-0.5">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="p-8 bg-red-500/10 border border-red-500/20 rounded-2xl">
+            <h3 class="text-xl font-bold text-red-400 mb-6 flex items-center gap-2">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+              NO es para ti si:
+            </h3>
+            <ul class="space-y-4">
+              {notForYou.map((item) => (
+                <li class="flex items-start gap-3 text-gray-400">
+                  <span class="text-red-400 mt-0.5">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT HAPPENS IN THE CALL -->
+    <section class="py-24 bg-dark-800/30">
+      <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-center">
+          ¿Qué pasa en la llamada?
+        </h2>
+        <p class="text-xl text-gray-400 text-center mb-12">
+          20 minutos. Sin presión. Sin trucos.
+        </p>
+
+        <div class="p-8 bg-dark-900 rounded-2xl border border-white/10 mb-8">
+          <p class="text-lg text-gray-300 mb-8">
+            Esta NO es una llamada de ventas disfrazada. Es una <strong class="text-white">evaluación mutua</strong>.
+          </p>
+
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue font-bold">1</div>
+              <div>
+                <h4 class="font-bold text-white mb-2">Entender tu situación (5 min)</h4>
+                <ul class="text-gray-400 text-sm space-y-1">
+                  <li>• ¿Cuál es tu rol y contexto?</li>
+                  <li>• ¿Qué has probado con IA hasta ahora?</li>
+                  <li>• ¿Cuál es el problema más grande que enfrentas?</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-accent-purple/20 flex items-center justify-center text-accent-purple font-bold">2</div>
+              <div>
+                <h4 class="font-bold text-white mb-2">Evaluar el fit (10 min)</h4>
+                <ul class="text-gray-400 text-sm space-y-1">
+                  <li>• ¿AI-Thinking es la solución correcta para tu caso?</li>
+                  <li>• ¿Tienes el perfil y la disponibilidad para el programa?</li>
+                  <li>• ¿Qué resultados podrías esperar realistamente?</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-accent-cyan/20 flex items-center justify-center text-accent-cyan font-bold">3</div>
+              <div>
+                <h4 class="font-bold text-white mb-2">Siguientes pasos (5 min)</h4>
+                <ul class="text-gray-400 text-sm space-y-1">
+                  <li>• Si hay fit: te explico cómo funciona el programa</li>
+                  <li>• Si NO hay fit: te digo honestamente y te sugiero alternativas</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <blockquote class="p-6 border-l-4 border-accent-purple bg-dark-800/50 rounded-r-xl">
+          <p class="text-gray-300 italic">
+            "No te voy a vender algo que no te sirve. Si no eres el candidato correcto, prefiero decírtelo ahora y ahorrarnos tiempo a ambos."
+          </p>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- THE PROGRAM -->
+    <section class="py-24">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-center">
+          El Programa (si hay fit)
+        </h2>
+        <p class="text-xl text-gray-400 text-center mb-12">
+          AI-Thinking: 6 semanas de metodología + 2 semanas de acompañamiento
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="p-8 bg-dark-800 rounded-2xl border border-white/10">
+            <h3 class="font-bold text-accent-blue mb-6">SEMANAS 1-6: Programa de Clases</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex items-center gap-2">
+                <span class="text-accent-blue">→</span>
+                1 sesión grupal/semana (6 sesiones)
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-accent-blue">→</span>
+                1 sesión 1-a-1 cada 2 semanas (3 sesiones)
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-accent-blue">→</span>
+                Quick Win semanal obligatorio
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-accent-blue">→</span>
+                Implementación en TU trabajo real
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-8 bg-dark-800 rounded-2xl border border-white/10">
+            <h3 class="font-bold text-accent-purple mb-6">SEMANAS 7-8: Consolidación</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex items-center gap-2">
+                <span class="text-accent-purple">→</span>
+                Sesión 1-a-1 de cierre
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-accent-purple">→</span>
+                Documentación de portfolio
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-accent-purple">→</span>
+                Certificación LinkedIn verificable
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="p-6 bg-gradient-to-r from-accent-blue/10 to-accent-purple/10 rounded-2xl border border-white/10">
+          <h4 class="font-bold text-white mb-4">Incluye:</h4>
+          <div class="grid md:grid-cols-2 gap-4 text-gray-300 text-sm">
+            <div>• Hand Holding por chat (nadie se queda solo)</div>
+            <div>• Digital Brain Starter Kit pre-configurado</div>
+            <div>• Comunidad de pares de tu nivel profesional</div>
+            <div>• Acceso permanente a contenido</div>
+          </div>
+          <div class="mt-6 pt-6 border-t border-white/10">
+            <p class="text-accent-purple font-semibold">
+              Garantía: Victoria en 4 semanas o devolución completa.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="py-24 bg-dark-800/30">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+          Resultados Esperados
+        </h2>
+
+        <div class="grid md:grid-cols-5 gap-4 mb-12">
+          {results.map((r) => (
+            <div class="p-6 bg-dark-900 rounded-xl border border-white/10 text-center">
+              <p class="text-sm text-gray-500 mb-2">{r.metric}</p>
+              <p class="text-lg font-bold text-accent-purple">{r.value}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="p-8 bg-dark-900 rounded-2xl border border-accent-cyan/30">
+          <h3 class="font-bold text-accent-cyan mb-6">ROI típico:</h3>
+          <div class="space-y-3 text-gray-300">
+            <p>Salario anual promedio: <strong>$60,000 USD</strong></p>
+            <p>Valor de tu hora: <strong>~$31 USD</strong></p>
+            <p>Tiempo recuperado: <strong>12 horas/semana = 48 horas/mes</strong></p>
+            <p>Valor mensual recuperado: <strong class="text-accent-cyan">$1,500 USD/mes</strong></p>
+          </div>
+          <div class="mt-6 pt-6 border-t border-accent-cyan/30 text-gray-400">
+            <p>→ Inversión recuperada en los primeros 2 meses</p>
+            <p>→ ROI en 6 meses: <strong class="text-white">$9,000 USD</strong> en tiempo recuperado</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASES -->
+    <section class="py-24">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+          Casos de Referencia
+        </h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          {cases.map((c) => (
+            <div class="p-6 bg-dark-800 rounded-2xl border border-white/10">
+              <h3 class="font-bold text-white mb-1">{c.title}</h3>
+              <p class="text-sm text-gray-500 mb-4">{c.details}</p>
+              <p class="text-sm text-gray-400 mb-4">{c.process}</p>
+              <div class="space-y-2 text-sm">
+                <p><span class="text-red-400">Antes:</span> {c.before}</p>
+                <p><span class="text-green-400">Después:</span> {c.after}</p>
+              </div>
+              <div class="mt-4 pt-4 border-t border-white/10">
+                <p class="text-accent-purple text-sm font-medium">ROI: {c.roi}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- OBJECTIONS -->
+    <section class="py-24 bg-dark-800/30">
+      <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+          Objeciones Comunes
+        </h2>
+
+        <div class="space-y-6">
+          {objections.map((obj) => (
+            <details class="group p-6 bg-dark-900 rounded-xl border border-white/10">
+              <summary class="flex items-center justify-between cursor-pointer list-none">
+                <span class="font-semibold text-white">{obj.question}</span>
+                <span class="text-gray-400 group-open:rotate-180 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="mt-4 text-gray-400 leading-relaxed">{obj.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="py-24">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="p-12 bg-gradient-to-br from-dark-800 to-dark-900 rounded-3xl border border-white/10 text-center relative overflow-hidden">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-accent-purple/20 rounded-full blur-3xl -z-10"></div>
+
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            La pregunta que define tu futuro:
+          </h2>
+
+          <div class="max-w-2xl mx-auto mb-10">
+            <p class="text-lg text-gray-300 mb-6">En 8 semanas puedes:</p>
+            <div class="grid md:grid-cols-2 gap-6 text-left">
+              <div class="p-6 bg-red-500/10 border border-red-500/20 rounded-xl">
+                <p class="text-red-400 font-bold mb-2">A) Seguir igual:</p>
+                <p class="text-gray-400 text-sm">Atrapado en lo operativo, sin tiempo para lo estratégico, viendo cómo otros lideran la conversación de IA</p>
+              </div>
+              <div class="p-6 bg-green-500/10 border border-green-500/20 rounded-xl">
+                <p class="text-green-400 font-bold mb-2">B) Tener sistema propio:</p>
+                <p class="text-gray-300 text-sm">15 hrs/semana recuperadas, certificación visible, portfolio documentado</p>
+              </div>
+            </div>
+            <p class="text-xl text-white font-semibold mt-6">¿Cuál eliges?</p>
+          </div>
+
+          <a
+            href={calendlyUrl}
+            target="_blank"
+            class="inline-block px-10 py-5 bg-gradient-to-r from-accent-blue to-accent-purple rounded-full font-semibold text-xl hover:opacity-90 transition-opacity glow mb-6"
+          >
+            Agendar mi Evaluación Gratuita
+          </a>
+
+          <p class="text-gray-500 text-sm">
+            20 minutos. Sin presión. Sin compromiso.
+          </p>
+          <p class="text-gray-600 text-xs mt-2">
+            Cupos limitados: 15-20 personas por cohorte
+          </p>
+        </div>
+
+        <!-- Final quote -->
+        <blockquote class="mt-16 p-8 border-l-4 border-accent-purple bg-dark-800/50 rounded-r-xl">
+          <p class="text-xl text-gray-300 italic mb-4">
+            "Mi mayor miedo no es ser reemplazado POR la IA — es ser reemplazado por alguien más joven que SÍ sabe usarla estratégicamente."
+          </p>
+          <footer class="text-gray-500">— Consultor de 43 años, 15 años de experiencia</footer>
+        </blockquote>
+
+        <div class="text-center mt-10">
+          <p class="text-gray-400 mb-6">
+            Si esto resonó contigo, agenda la llamada.<br />
+            No porque yo te lo diga. Porque sabes que cada semana que pasa, la brecha se amplía.
+          </p>
+          <a
+            href={calendlyUrl}
+            target="_blank"
+            class="inline-block px-8 py-4 bg-gradient-to-r from-accent-blue to-accent-purple rounded-full font-semibold text-lg hover:opacity-90 transition-opacity glow"
+          >
+            Agendar mi Evaluación Gratuita
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
