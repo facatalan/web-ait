@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+
+const landings = [
+  {
+    title: 'Evaluación Gratuita',
+    description: 'Landing de conversión para agendar una evaluación de 20 minutos sobre colaboración estratégica con IA.',
+    url: '/evaluacion',
+    type: 'Conversión',
+    status: 'Activa',
+  },
+];
+---
+
+<Layout title="Landings - AIThinking">
+  <Header />
+  <main class="min-h-screen pt-32 pb-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-12">
+        <span class="inline-block px-4 py-1.5 bg-accent-purple/10 border border-accent-purple/20 rounded-full text-accent-purple text-sm font-medium mb-4">
+          Recursos Internos
+        </span>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          Landing Pages
+        </h1>
+        <p class="text-gray-400 text-lg">
+          Índice de todas las landing pages del sitio
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        {landings.map((landing) => (
+          <a
+            href={landing.url}
+            class="group block bg-dark-800 border border-white/10 rounded-2xl p-6
+                   hover:border-accent-purple/50 transition-all hover:-translate-y-1"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                  <h2 class="text-xl font-bold text-white group-hover:text-accent-purple transition-colors">
+                    {landing.title}
+                  </h2>
+                  <span class="px-2 py-0.5 text-xs font-medium bg-accent-blue/20 text-accent-blue rounded">
+                    {landing.type}
+                  </span>
+                  <span class="px-2 py-0.5 text-xs font-medium bg-green-500/20 text-green-400 rounded">
+                    {landing.status}
+                  </span>
+                </div>
+                <p class="text-gray-400 text-sm mb-3">
+                  {landing.description}
+                </p>
+                <code class="text-xs text-gray-500 bg-dark-900 px-2 py-1 rounded">
+                  {landing.url}
+                </code>
+              </div>
+              <svg class="w-5 h-5 text-gray-500 group-hover:text-accent-purple group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="mt-12 p-6 bg-dark-800/50 border border-white/5 rounded-xl">
+        <h3 class="text-lg font-semibold text-white mb-2">Agregar nueva landing</h3>
+        <p class="text-gray-400 text-sm">
+          Para agregar una nueva landing, créala en <code class="text-accent-purple">src/pages/</code> y actualiza el array <code class="text-accent-purple">landings</code> en este archivo.
+        </p>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
