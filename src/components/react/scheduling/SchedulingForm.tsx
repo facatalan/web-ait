@@ -98,7 +98,7 @@ export function SchedulingForm() {
 
     try {
       // Enviar datos a Supabase
-      const { error } = await supabase.from('leads_scheduling').insert({
+      const { error, data: result } = await supabase.from('leads_scheduling').insert({
         name: data.name,
         email: data.email,
         phone: data.phone,
@@ -117,13 +117,21 @@ export function SchedulingForm() {
         localStorage.setItem('scheduling_data_backup', JSON.stringify({
           ...data,
           timestamp: new Date().toISOString(),
+          error: error.message,
         }));
+      } else {
+        console.log('Lead saved successfully');
       }
     } catch (err) {
       console.error('Error:', err);
+      localStorage.setItem('scheduling_data_backup', JSON.stringify({
+        ...data,
+        timestamp: new Date().toISOString(),
+        error: String(err),
+      }));
     }
 
-    // Redirigir al calendario (siempre, incluso si falla el guardado)
+    // Redirigir al calendario
     window.location.href = CALENDAR_URL;
   };
 
