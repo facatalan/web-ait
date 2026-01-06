@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SchedulingForm } from '../components/react/scheduling/SchedulingForm';
+---
+
+<Layout title="Agenda tu llamada - AIThinking">
+  <main class="min-h-screen flex items-center justify-center py-12 px-4">
+    <div class="w-full max-w-xl">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <a href="/">
+          <img src="/images/logo.png" alt="AIThinking" class="h-10 mx-auto" />
+        </a>
+      </div>
+
+      <!-- Intro text -->
+      <div class="text-center mb-8">
+        <p class="text-gray-400 text-sm">
+          Responde algunas preguntas para personalizar tu llamada
+        </p>
+      </div>
+
+      <!-- Form -->
+      <div class="bg-dark-800/50 border border-white/5 rounded-2xl p-6 md:p-8">
+        <SchedulingForm client:load />
+      </div>
+
+      <!-- Trust elements -->
+      <div class="mt-8 text-center">
+        <p class="text-gray-500 text-xs">
+          20 minutos. Sin presión. Sin compromiso.
+        </p>
+      </div>
+    </div>
+  </main>
+</Layout>
