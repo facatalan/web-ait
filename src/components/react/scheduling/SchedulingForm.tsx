@@ -233,7 +233,7 @@ export function SchedulingForm() {
             <RadioOption
               field="q2_situation"
               value="superficie"
-              label="Siento que estoy \"arañando la superficie\" de lo que podría hacer"
+              label="Siento que estoy 'arañando la superficie' de lo que podría hacer"
               selected={data.q2_situation === 'superficie'}
             />
             <RadioOption
