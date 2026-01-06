@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { supabase } from '../../../lib/supabase';
 
 interface FormData {
   name: string;
@@ -65,16 +66,34 @@ export function SchedulingForm() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
-    // Aquí podrías enviar los datos a Supabase o un webhook
-    console.log('Form data:', data);
+    try {
+      // Enviar datos a Supabase
+      const { error } = await supabase.from('leads_scheduling').insert({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        q1_usage: data.q1_usage,
+        q2_situation: data.q2_situation,
+        q3_role: data.q3_role,
+        q3_role_other: data.q3_role === 'otro' ? data.q3_role_other : null,
+        q4_timing: data.q4_timing,
+        q5_problem: data.q5_problem,
+        source: new URLSearchParams(window.location.search).get('source') || 'direct',
+      });
 
-    // Guardar en localStorage como backup
-    localStorage.setItem('scheduling_data', JSON.stringify({
-      ...data,
-      timestamp: new Date().toISOString(),
-    }));
+      if (error) {
+        console.error('Error saving lead:', error);
+        // Guardar en localStorage como backup si falla
+        localStorage.setItem('scheduling_data_backup', JSON.stringify({
+          ...data,
+          timestamp: new Date().toISOString(),
+        }));
+      }
+    } catch (err) {
+      console.error('Error:', err);
+    }
 
-    // Redirigir al calendario
+    // Redirigir al calendario (siempre, incluso si falla el guardado)
     window.location.href = CALENDAR_URL;
   };
 
