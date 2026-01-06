@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../../../lib/supabase';
 
 interface FormData {
@@ -39,6 +39,14 @@ export function SchedulingForm() {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const totalSteps = 7; // datos + 5 preguntas + final
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
+  // Guardar en Supabase cuando llegamos al paso de confirmación (step 6)
+  useEffect(() => {
+    if (step === 6 && saveStatus === 'idle') {
+      saveToSupabase();
+    }
+  }, [step]);
 
   const updateField = (field: keyof FormData, value: string) => {
     setData((prev) => ({ ...prev, [field]: value }));
@@ -93,12 +101,24 @@ export function SchedulingForm() {
     }
   };
 
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-
+  const saveToSupabase = async () => {
+    setSaveStatus('saving');
     try {
-      // Enviar datos a Supabase
-      const { error, data: result } = await supabase.from('leads_scheduling').insert({
+      console.log('Saving lead to Supabase...');
+      console.log('Data to save:', {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        q1_usage: data.q1_usage,
+        q2_situation: data.q2_situation,
+        q3_role: data.q3_role,
+        q3_role_other: data.q3_role === 'otro' ? data.q3_role_other : null,
+        q4_timing: data.q4_timing,
+        q5_problem: data.q5_problem,
+        source: new URLSearchParams(window.location.search).get('source') || 'direct',
+      });
+
+      const { error } = await supabase.from('leads_scheduling').insert({
         name: data.name,
         email: data.email,
         phone: data.phone,
@@ -113,25 +133,29 @@ export function SchedulingForm() {
 
       if (error) {
         console.error('Error saving lead:', error);
-        // Guardar en localStorage como backup si falla
+        setSaveStatus('error');
         localStorage.setItem('scheduling_data_backup', JSON.stringify({
           ...data,
           timestamp: new Date().toISOString(),
           error: error.message,
         }));
       } else {
-        console.log('Lead saved successfully');
+        console.log('Lead saved successfully!');
+        setSaveStatus('saved');
       }
     } catch (err) {
       console.error('Error:', err);
+      setSaveStatus('error');
       localStorage.setItem('scheduling_data_backup', JSON.stringify({
         ...data,
         timestamp: new Date().toISOString(),
         error: String(err),
       }));
     }
+  };
 
-    // Redirigir al calendario
+  const handleSubmit = () => {
+    // Solo redirigir al calendario (los datos ya se guardaron)
     window.location.href = CALENDAR_URL;
   };
 
@@ -464,6 +488,7 @@ export function SchedulingForm() {
             <p className="text-gray-400 text-sm">{data.email}</p>
             <p className="text-gray-400 text-sm">{data.phone}</p>
           </div>
+
         </div>
       )}
 
