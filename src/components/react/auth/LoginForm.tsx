@@ -83,6 +83,17 @@ export function LoginForm() {
             />
           </div>
 
+          {mode === 'login' && (
+            <div className="text-right">
+              <a
+                href="/forgot-password"
+                className="text-sm text-gray-400 hover:text-accent-blue transition-colors"
+              >
+                ¿Olvidaste tu contrasena?
+              </a>
+            </div>
+          )}
+
           {error && (
             <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
               {error}
