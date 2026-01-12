@@ -31,7 +31,7 @@ export function LoginForm() {
           password,
         });
         if (error) throw error;
-        window.location.href = '/';
+        window.location.href = '/programas';
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
