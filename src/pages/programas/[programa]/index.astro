@@ -3,6 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 import Header from '../../../components/astro/Header.astro';
 import Footer from '../../../components/astro/Footer.astro';
 import { getCollection } from 'astro:content';
+import { QASessionLink } from '../../../components/react/programs/QASessionLink';
 
 export async function getStaticPaths() {
   const programas = await getCollection('programas');
@@ -86,6 +87,9 @@ const { Content } = await program.render();
           </svg>
           Comunidad del programa
         </a>
+
+        <!-- Q&A Session link (only for users with access) -->
+        <QASessionLink programSlug={programa} client:load />
       </div>
 
       <!-- Weeks -->
