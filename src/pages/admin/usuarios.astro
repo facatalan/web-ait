@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/astro/Header.astro';
+import Footer from '../../components/astro/Footer.astro';
+import UsersPage from '../../components/react/admin/UsersPage';
+---
+
+<Layout title="Gestión de Usuarios - AIThinking">
+  <Header />
+  <main class="min-h-screen pt-32 pb-16 px-4">
+    <div class="max-w-7xl mx-auto">
+      {/* Navigation */}
+      <div class="mb-6 flex gap-4">
+        <a
+          href="/admin"
+          class="px-4 py-2 bg-dark-800 border border-white/10 rounded-lg text-white/60 hover:text-white hover:border-accent-blue/50 transition-colors"
+        >
+          ← Progreso de Estudiantes
+        </a>
+        <div class="px-4 py-2 bg-accent-blue/10 border border-accent-blue/30 rounded-lg text-accent-blue">
+          Gestión de Usuarios
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold text-white mb-2">
+          Gestión de <span class="gradient-text">Usuarios</span>
+        </h1>
+        <p class="text-white/60">
+          Administra usuarios y sus accesos a programas
+        </p>
+      </div>
+
+      <UsersPage client:only="react" />
+    </div>
+  </main>
+  <Footer />
+</Layout>

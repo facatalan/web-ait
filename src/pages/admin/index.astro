@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/astro/Header.astro';
+import Footer from '../../components/astro/Footer.astro';
+import AdminPage from '../../components/react/admin/AdminPage';
+---
+
+<Layout title="Panel de Administración - AIThinking">
+  <Header />
+  <main class="min-h-screen pt-32 pb-16 px-4">
+    <div class="max-w-7xl mx-auto">
+      {/* Navigation */}
+      <div class="mb-6 flex gap-4">
+        <div class="px-4 py-2 bg-accent-blue/10 border border-accent-blue/30 rounded-lg text-accent-blue">
+          Progreso de Estudiantes
+        </div>
+        <a
+          href="/admin/usuarios"
+          class="px-4 py-2 bg-dark-800 border border-white/10 rounded-lg text-white/60 hover:text-white hover:border-accent-blue/50 transition-colors"
+        >
+          Gestión de Usuarios →
+        </a>
+      </div>
+
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold text-white mb-2">
+          Panel de <span class="gradient-text">Administración</span>
+        </h1>
+        <p class="text-white/60">
+          Gestiona y monitorea el progreso de estudiantes por programa
+        </p>
+      </div>
+
+      <AdminPage client:only="react" />
+    </div>
+  </main>
+  <Footer />
+</Layout>
