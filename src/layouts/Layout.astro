@@ -9,14 +9,128 @@ const { title } = Astro.props;
 <!doctype html>
 <html lang="es">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="AI Thinking - El método que amplifica tu experiencia profesional con Inteligencia Artificial" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Metadatos básicos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
+    <meta name="description" content="Aprende a amplificar tu experiencia profesional con IA. Recupera 8 horas productivas por semana. Sistema estratégico en 6 semanas, no trucos técnicos.">
+    <meta name="keywords" content="inteligencia artificial profesional, ChatGPT avanzado, Claude AI, productividad con IA, amplificación cognitiva, sistema estratégico IA, pensar con IA, AI para ejecutivos">
+    <meta name="author" content="Felipe Catalán">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ai-thinking.io/">
+
+    <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ai-thinking.io/">
+    <meta property="og:site_name" content="AI Thinking">
+    <meta property="og:title" content="AI Thinking - El sistema que amplifica tu experiencia con IA">
+    <meta property="og:description" content="Más de 250 profesionales senior en 12 países han recuperado un promedio de 8 horas productivas por semana. El método que convierte tu experiencia en ventaja estratégica con IA.">
+    <meta property="og:image" content="https://ai-thinking.io/images/og-image.jpg">
+    <meta property="og:image:secure_url" content="https://ai-thinking.io/images/og-image.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="AI Thinking - Sistema estratégico de amplificación cognitiva con IA">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale:alternate" content="es_MX">
+    <meta property="og:locale:alternate" content="es_AR">
+    <meta property="og:locale:alternate" content="es_CL">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ai-thinking.io/">
+    <meta name="twitter:title" content="AI Thinking - El sistema que amplifica tu experiencia con IA">
+    <meta name="twitter:description" content="+250 profesionales en 12 países recuperan 8 horas/semana. Sistema estratégico en 6 semanas, no trucos técnicos.">
+    <meta name="twitter:image" content="https://ai-thinking.io/images/twitter-image.jpg">
+    <meta name="twitter:image:alt" content="AI Thinking - Sistema estratégico de amplificación cognitiva con IA">
+    <meta name="twitter:creator" content="@felipecatalan">
+    <meta name="twitter:site" content="@aithinking">
+
+    <!-- Schema.org JSON-LD para SEO avanzado -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "AI Thinking",
+      "description": "Sistema estratégico de amplificación cognitiva con Inteligencia Artificial para profesionales senior. Más de 250 profesionales en 12 países y +20 industrias han transformado su forma de trabajar con IA.",
+      "provider": {
+        "@type": "Organization",
+        "name": "AI Thinking",
+        "url": "https://ai-thinking.io",
+        "logo": "https://ai-thinking.io/images/logo.png"
+      },
+      "instructor": {
+        "@type": "Person",
+        "name": "Felipe Catalán",
+        "description": "Consultor especializado en la intersección entre tecnología y estrategia de negocios, con casi 20 años de experiencia",
+        "url": "https://ai-thinking.io"
+      },
+      "educationalLevel": "Advanced",
+      "timeRequired": "P6W",
+      "courseMode": "online",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "250",
+        "bestRating": "5"
+      },
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock",
+        "url": "https://ai-thinking.io",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <!-- Schema.org para Organización -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "AI Thinking",
+      "url": "https://ai-thinking.io",
+      "logo": "https://ai-thinking.io/images/logo.png",
+      "description": "Sistema estratégico de amplificación cognitiva con Inteligencia Artificial",
+      "sameAs": [
+        "https://twitter.com/aithinking",
+        "https://linkedin.com/company/aithinking",
+        "https://instagram.com/aithinking"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "email": "contacto@ai-thinking.io",
+        "availableLanguage": ["Spanish", "English"]
+      }
+    }
+    </script>
+
+    <!-- Adicionales para SEO -->
+    <meta name="theme-color" content="#4F46E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AI Thinking">
+
+    <!-- Preconnect para performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-81R01RZSGV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-81R01RZSGV');
+    </script>
   </head>
   <body class="bg-dark-900 text-white font-sans antialiased">
     <slot />
