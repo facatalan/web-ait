@@ -1,10 +1,10 @@
 ---
 const partners = [
-  { name: 'OpenAI', logo: '/images/logos/openai.png' },
-  { name: 'Anthropic', logo: '/images/logos/anthropic.png' },
-  { name: 'Perplexity', logo: '/images/logos/perplexity.webp' },
-  { name: 'Gemini', logo: '/images/logos/gemini.png' },
-  { name: 'Gamma', logo: '/images/logos/gamma.png' },
+  { name: 'OpenAI', logo: '/images/logos/openai.png', large: false },
+  { name: 'Anthropic', logo: '/images/logos/anthropic.png', large: true },
+  { name: 'Perplexity', logo: '/images/logos/perplexity.webp', large: true },
+  { name: 'Gemini', logo: '/images/logos/gemini.png', large: false },
+  { name: 'Gamma', logo: '/images/logos/gamma.png', large: false },
 ];
 ---
 
@@ -13,7 +13,11 @@ const partners = [
     <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
       {partners.map((partner) => (
         <div class="flex items-center justify-center h-20 opacity-70 hover:opacity-100 transition-opacity">
-          <img src={partner.logo} alt={partner.name} class="h-14 md:h-[70px] w-auto object-contain brightness-0 invert" />
+          <img
+            src={partner.logo}
+            alt={partner.name}
+            class={`w-auto object-contain brightness-0 invert ${partner.large ? 'h-21 md:h-[105px]' : 'h-14 md:h-[70px]'}`}
+          />
         </div>
       ))}
     </div>
