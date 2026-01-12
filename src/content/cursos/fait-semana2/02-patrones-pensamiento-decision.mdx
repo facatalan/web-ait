@@ -8,11 +8,10 @@ order: 2
 course: "fait-semana2"
 courseTitle: "Tu Cerebro Digital"
 courseDescription: "Construye tu Perfil de Claridad Personal para que la IA te conozca y amplifique tu potencial único."
-attachments:
-  - title: "Guía de Reflexión Personal"
-    url: "/programas/fait-ejecutivos/fait-semana2/recurso-guia-reflexion"
-    type: "other"
 ---
+
+import Expandable from '@/components/mdx/Expandable.astro';
+import GuiaReflexion from './recurso-guia-reflexion.md';
 
 En este video vamos a explorar la primera dimensión de tu Perfil de Claridad: **cómo piensas y cómo decides**. Esta es información que probablemente nunca has documentado explícitamente, pero que define quién eres como profesional.
 
@@ -109,6 +108,10 @@ Te dejo algunas preguntas para guiar tu reflexión:
 
 ---
 
-**Descarga la Guía de Reflexión Personal** en los recursos de esta lección para encontrar más preguntas detalladas que te ayudarán a documentar tus patrones de pensamiento.
+<Expandable title="Recurso: Guía de Reflexión Personal">
+
+<GuiaReflexion />
+
+</Expandable>
 
 *En el siguiente video exploraremos tus fortalezas, valores y preferencias usando el framework FEDA.*

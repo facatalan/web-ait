@@ -8,11 +8,10 @@ order: 4
 course: "fait-semana2"
 courseTitle: "Tu Cerebro Digital"
 courseDescription: "Construye tu Perfil de Claridad Personal para que la IA te conozca y amplifique tu potencial único."
-attachments:
-  - title: "Plantilla Perfil de Claridad Personal"
-    url: "/programas/fait-ejecutivos/fait-semana2/recurso-plantilla-perfil-claridad"
-    type: "other"
 ---
+
+import Expandable from '@/components/mdx/Expandable.astro';
+import PlantillaPerfil from './recurso-plantilla-perfil-claridad.md';
 
 Has reflexionado sobre:
 - Cómo piensas
@@ -166,6 +165,10 @@ Es el **cimiento** de tu sistema de trabajo con IA.
 
 ---
 
-**Descarga la Plantilla Perfil de Claridad Personal** en los recursos para estructurar tu documento final.
+<Expandable title="Recurso: Plantilla Perfil de Claridad Personal">
+
+<PlantillaPerfil />
+
+</Expandable>
 
 *¡Felicitaciones por completar la Semana 2! Ahora tienes las herramientas para que la IA te conozca y amplifique tu potencial único.*

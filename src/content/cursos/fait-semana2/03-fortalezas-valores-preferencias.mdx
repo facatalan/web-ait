@@ -8,11 +8,10 @@ order: 3
 course: "fait-semana2"
 courseTitle: "Tu Cerebro Digital"
 courseDescription: "Construye tu Perfil de Claridad Personal para que la IA te conozca y amplifique tu potencial único."
-attachments:
-  - title: "Plantilla FEDA"
-    url: "/programas/fait-ejecutivos/fait-semana2/recurso-plantilla-feda"
-    type: "other"
 ---
+
+import Expandable from '@/components/mdx/Expandable.astro';
+import PlantillaFEDA from './recurso-plantilla-feda.md';
 
 En este video vamos a explorar **tres dimensiones fundamentales** de tu perfil:
 - Qué haces mejor que la mayoría
@@ -150,6 +149,10 @@ Cuando la IA conoce tus preferencias, puede **adaptar sus respuestas a tu estilo
 
 ---
 
-**Descarga la Plantilla FEDA** en los recursos de esta lección para trabajar sistemáticamente en cada componente.
+<Expandable title="Recurso: Plantilla FEDA">
+
+<PlantillaFEDA />
+
+</Expandable>
 
 *En el siguiente video veremos cómo convertir toda esta reflexión en un documento estructurado listo para usar.*
