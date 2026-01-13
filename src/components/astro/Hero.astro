@@ -55,7 +55,25 @@
 
     <!-- Amplification visual - centered below text -->
     <div class="w-full max-w-4xl mx-auto">
-      <img src="/images/backgrounds/amplificacion.png" alt="Amplificación" class="w-full" />
+      <picture>
+        <source
+          media="(max-width: 640px)"
+          srcset="/images/backgrounds/amplificacion-mobile.webp"
+          type="image/webp"
+        />
+        <source
+          srcset="/images/backgrounds/amplificacion-desktop.webp"
+          type="image/webp"
+        />
+        <img
+          src="/images/backgrounds/amplificacion.png"
+          alt="Amplificación"
+          class="w-full"
+          width="900"
+          height="600"
+          loading="eager"
+        />
+      </picture>
     </div>
   </div>
 
