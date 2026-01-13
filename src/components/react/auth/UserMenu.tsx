@@ -40,8 +40,9 @@ function UserMenuContent() {
     <div ref={menuRef} className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-10 h-10 rounded-full bg-accent-purple flex items-center justify-center
-                 text-white font-semibold hover:ring-2 hover:ring-accent-purple/50 transition-all"
+        className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500
+                 flex items-center justify-center text-white font-semibold
+                 hover:ring-2 hover:ring-purple-400/50 transition-all cursor-pointer"
       >
         {initial}
       </button>
