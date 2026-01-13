@@ -5,24 +5,28 @@ const testimonials = [
     role: 'Director Marketing Digital',
     quote: 'Recuperé 3 horas semanales en los primeros días. El sistema de Cerebro Digital cambió completamente cómo organizo y uso la información.',
     avatar: '/images/avatars/avatar1.png',
+    avatarWebp: '/images/avatars/avatar1.webp',
   },
   {
     name: 'Constanza Cannon',
     role: 'CFO',
     quote: 'No solo uso mejor la IA - pieso diferente. El Ciclo Amplificador me ayudó a ver patrones que antes pasaba por alto. Sé qué delegar en la IA y que no, tengo un abanico de posibilidades',
     avatar: '/images/avatars/avatar2.png',
+    avatarWebp: '/images/avatars/avatar2.webp',
   },
   {
     name: 'Martina Clavero',
     role: 'Consultor Senior HR',
     quote: 'Proceso información de formas que antes no podía. Mis clientes notan la diferencia en la profundidad de mis análisis, y me demoro mucho menos.',
     avatar: '/images/avatars/avatar3.png',
+    avatarWebp: '/images/avatars/avatar3.webp',
   },
   {
     name: 'Alejandro Méndez',
     role: 'Arquitecto de Software',
     quote: 'Diseños más completos en mitad de tiempo. AIThinking me enseñó a usar la IA como un verdadero colaborador estratégico.',
     avatar: '/images/avatars/avatar4.png',
+    avatarWebp: '/images/avatars/avatar4.webp',
   },
 ];
 ---
@@ -48,7 +52,10 @@ const testimonials = [
             "{testimonial.quote}"
           </p>
           <div class="flex items-center gap-4">
-            <img src={testimonial.avatar} alt={testimonial.name} class="w-12 h-12 rounded-full object-cover" />
+            <picture>
+              <source srcset={testimonial.avatarWebp} type="image/webp" />
+              <img src={testimonial.avatar} alt={testimonial.name} class="w-12 h-12 rounded-full object-cover" />
+            </picture>
             <div>
               <p class="font-semibold">{testimonial.name}</p>
               <p class="text-sm text-gray-500">{testimonial.role}</p>

@@ -2,16 +2,19 @@
 const components = [
   {
     icon: '/images/icons/ciclo-amplificador.png',
+    iconWebp: '/images/icons/ciclo-amplificador.webp',
     title: 'Ciclo Amplificador',
     description: 'Un método estructurado para interactuar con la IA, que aprovecha todo tu potencial humano.',
   },
   {
     icon: '/images/icons/cerebro-digital.png',
+    iconWebp: '/images/icons/cerebro-digital.webp',
     title: 'Cerebro Digital',
     description: 'Un sistema personalizado para estructurar, almacenar y conectar conocimiento.',
   },
   {
     icon: '/images/icons/dialogo-estrategico.png',
+    iconWebp: '/images/icons/dialogo-estrategico.webp',
     title: 'Diálogo Estratégico Continuo',
     description: 'Un método de comunicación con IA que reemplaza prompts aislados por conversaciones acumulativas.',
   },
@@ -37,7 +40,10 @@ const components = [
       {components.map((component) => (
         <div class="group p-8 bg-dark-900/50 rounded-2xl border border-white/5 hover:border-accent-purple/30 transition-all duration-300 hover:-translate-y-2">
           <div class="w-40 h-40 mb-6">
-            <img src={component.icon} alt={component.title} class="w-full h-full object-contain" />
+            <picture>
+              <source srcset={component.iconWebp} type="image/webp" />
+              <img src={component.icon} alt={component.title} class="w-full h-full object-contain" />
+            </picture>
           </div>
           <h3 class="text-2xl font-bold mb-4 group-hover:text-accent-purple transition-colors">
             {component.title}
