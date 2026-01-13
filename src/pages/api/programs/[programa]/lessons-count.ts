@@ -1,3 +1,19 @@
+/**
+ * API: Conteo de lecciones por programa
+ *
+ * IMPORTANTE - Convención de archivos en src/content/cursos/:
+ * - .mdx = Lecciones (clases con video, se cuentan en progreso)
+ * - .md  = Recursos descargables (plantillas, guías, no se cuentan)
+ *
+ * Al desarrollar features relacionadas con conteo de lecciones o progreso,
+ * SIEMPRE filtrar con: lesson.id.endsWith('.mdx')
+ *
+ * Archivos que ya aplican este filtro:
+ * - src/pages/programas/[programa]/index.astro
+ * - src/pages/programas/[programa]/[curso]/index.astro
+ * - src/pages/programas/[programa]/[curso]/[leccion].astro
+ * - src/pages/api/programs/[programa]/lessons-count.ts (este archivo)
+ */
 import type { APIRoute } from 'astro';
 import { getEntry, getCollection } from 'astro:content';
 
@@ -27,12 +43,12 @@ export const GET: APIRoute = async ({ params }) => {
     // Extract all course slugs from program weeks
     const courseSlugs = program.data.weeks.flatMap((week) => week.courses);
 
-    // Get all lessons
+    // Get all lessons (only .mdx files are lessons, .md files are resources)
     const allLessons = await getCollection('cursos');
 
-    // Filter lessons that belong to this program's courses
+    // Filter lessons that belong to this program's courses (exclude .md resources)
     const programLessons = allLessons.filter((lesson) =>
-      courseSlugs.includes(lesson.data.course)
+      courseSlugs.includes(lesson.data.course) && lesson.id.endsWith('.mdx')
     );
 
     return new Response(JSON.stringify({

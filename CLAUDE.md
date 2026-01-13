@@ -180,6 +180,26 @@ src/content/cursos/
 │   └── ...
 ```
 
+### Convenciones de Archivos en Cursos
+
+**IMPORTANTE** - En `src/content/cursos/` distinguimos entre:
+
+| Extensión | Tipo | Descripción | Se cuenta en progreso |
+|-----------|------|-------------|----------------------|
+| `.mdx` | Lección | Clases con video | **Sí** |
+| `.md` | Recurso | Plantillas, guías descargables | No |
+
+Al desarrollar features de **conteo de lecciones o progreso**, siempre filtrar:
+```ts
+lessons.filter(l => l.id.endsWith('.mdx'))
+```
+
+Archivos que aplican este filtro:
+- `src/pages/programas/[programa]/index.astro`
+- `src/pages/programas/[programa]/[curso]/index.astro`
+- `src/pages/programas/[programa]/[curso]/[leccion].astro`
+- `src/pages/api/programs/[programa]/lessons-count.ts`
+
 ### Implementation Phases
 
 1. **Foundation** - Supabase setup, tables, RLS
