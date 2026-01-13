@@ -1,10 +1,10 @@
 ---
 const partners = [
-  { name: 'OpenAI', logo: '/images/logos/openai.png', large: false },
-  { name: 'Anthropic', logo: '/images/logos/anthropic.png', large: true },
-  { name: 'Perplexity', logo: '/images/logos/perplexity.webp', large: true },
-  { name: 'Gemini', logo: '/images/logos/gemini.png', large: false },
-  { name: 'Gamma', logo: '/images/logos/gamma.png', large: false },
+  { name: 'OpenAI', logo: '/images/logos/openai.png', logoWebp: '/images/logos/openai.webp', large: false },
+  { name: 'Anthropic', logo: '/images/logos/anthropic.png', logoWebp: '/images/logos/anthropic.webp', large: true },
+  { name: 'Perplexity', logo: '/images/logos/perplexity.webp', logoWebp: '/images/logos/perplexity.webp', large: true },
+  { name: 'Gemini', logo: '/images/logos/gemini.png', logoWebp: '/images/logos/gemini.webp', large: false },
+  { name: 'Gamma', logo: '/images/logos/gamma.png', logoWebp: '/images/logos/gamma.webp', large: false },
 ];
 ---
 
@@ -13,11 +13,14 @@ const partners = [
     <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
       {partners.map((partner) => (
         <div class="flex items-center justify-center h-20 opacity-70 hover:opacity-100 transition-opacity">
-          <img
-            src={partner.logo}
-            alt={partner.name}
-            class={`w-auto object-contain brightness-0 invert ${partner.large ? 'h-21 md:h-[105px]' : 'h-14 md:h-[70px]'}`}
-          />
+          <picture>
+            <source srcset={partner.logoWebp} type="image/webp" />
+            <img
+              src={partner.logo}
+              alt={partner.name}
+              class={`w-auto object-contain brightness-0 invert ${partner.large ? 'h-21 md:h-[105px]' : 'h-14 md:h-[70px]'}`}
+            />
+          </picture>
         </div>
       ))}
     </div>
