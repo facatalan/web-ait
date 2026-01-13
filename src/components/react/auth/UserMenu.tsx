@@ -18,7 +18,13 @@ function UserMenuContent() {
 
   if (loading) {
     return (
-      <div className="w-8 h-8 rounded-full bg-dark-700 animate-pulse" />
+      <a
+        href="/login"
+        className="px-5 py-2.5 bg-white/10 border border-white/30 text-white text-sm
+                 font-medium rounded-full hover:bg-white/20 hover:border-white/50 transition-all"
+      >
+        Ingresar
+      </a>
     );
   }
 
