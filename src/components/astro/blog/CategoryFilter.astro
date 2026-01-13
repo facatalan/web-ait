@@ -1,0 +1,63 @@
+---
+interface Props {
+  categories: string[];
+  currentCategory?: string;
+}
+
+const { categories, currentCategory } = Astro.props;
+
+// Nombres legibles de categorías
+const categoryNames: Record<string, string> = {
+  'metodologia': 'Metodología',
+  'herramientas-ia': 'Herramientas IA',
+  'casos-estudio': 'Casos de Estudio',
+  'prompting': 'Prompting',
+  'automatizacion': 'Automatización',
+  'industria': 'Industria'
+};
+---
+
+<div class="flex items-center gap-4 overflow-x-auto pb-4 scrollbar-hide">
+  <!-- Opción "Todos" -->
+  <a
+    href="/blog"
+    class={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+      !currentCategory
+        ? 'bg-accent-blue text-white'
+        : 'bg-dark-700 text-white/60 hover:bg-dark-600 hover:text-white'
+    }`}
+  >
+    Todos
+  </a>
+
+  <!-- Categorías -->
+  {categories.map(category => {
+    const isActive = currentCategory === category;
+    const categoryName = categoryNames[category] || category;
+
+    return (
+      <a
+        href={`/blog/categoria/${category}`}
+        class={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+          isActive
+            ? 'bg-accent-blue text-white'
+            : 'bg-dark-700 text-white/60 hover:bg-dark-600 hover:text-white'
+        }`}
+      >
+        {categoryName}
+      </a>
+    );
+  })}
+</div>
+
+<style>
+  /* Ocultar scrollbar pero mantener funcionalidad */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+</style>

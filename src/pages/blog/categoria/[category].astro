@@ -1,0 +1,87 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/astro/Header.astro';
+import Footer from '../../../components/astro/Footer.astro';
+import CategoryFilter from '../../../components/astro/blog/CategoryFilter.astro';
+import BlogGrid from '../../../components/astro/blog/BlogGrid.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return data.isDraft !== true;
+  });
+
+  // Obtener todas las categorías únicas
+  const categories = [...new Set(allPosts.map(post => post.data.category))];
+
+  return categories.map(category => ({
+    params: { category },
+    props: {
+      posts: allPosts.filter(post => post.data.category === category),
+      category
+    },
+  }));
+}
+
+interface Props {
+  posts: any[];
+  category: string;
+}
+
+const { posts, category } = Astro.props;
+
+// Ordenar por fecha de publicación (más recientes primero)
+const sortedPosts = posts.sort((a, b) =>
+  b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+// Obtener todas las categorías para el filtro
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.isDraft !== true;
+});
+const categories = [...new Set(allPosts.map(post => post.data.category))].sort();
+
+// Nombres legibles de categorías
+const categoryNames: Record<string, string> = {
+  'metodologia': 'Metodología',
+  'herramientas-ia': 'Herramientas IA',
+  'casos-estudio': 'Casos de Estudio',
+  'prompting': 'Prompting',
+  'automatizacion': 'Automatización',
+  'industria': 'Industria'
+};
+
+const categoryName = categoryNames[category] || category;
+---
+
+<Layout
+  title={`${categoryName} | Blog AI Thinking`}
+  description={`Artículos sobre ${categoryName.toLowerCase()} para amplificar tu experiencia profesional con Inteligencia Artificial.`}
+  canonical={`https://ai-thinking.io/blog/categoria/${category}`}
+>
+  <Header />
+
+  <main class="min-h-screen bg-dark-900 py-20">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      <!-- Hero section -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          <span class="gradient-text">{categoryName}</span>
+        </h1>
+        <p class="text-xl text-white/80 max-w-3xl mx-auto">
+          {sortedPosts.length} artículo{sortedPosts.length !== 1 ? 's' : ''} en esta categoría
+        </p>
+      </div>
+
+      <!-- Category filter -->
+      <div class="mb-12">
+        <CategoryFilter categories={categories} currentCategory={category} />
+      </div>
+
+      <!-- Posts grid -->
+      <BlogGrid posts={sortedPosts} showFeatured={false} />
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

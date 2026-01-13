@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BlogCard from './BlogCard.astro';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  showFeatured?: boolean;
+}
+
+const { posts, showFeatured = false } = Astro.props;
+
+// Separar post destacado del resto si showFeatured es true
+const featuredPost = showFeatured && posts.length > 0 && posts[0].data.featured ? posts[0] : null;
+const regularPosts = featuredPost ? posts.slice(1) : posts;
+---
+
+<div class="space-y-8">
+  {featuredPost && (
+    <div class="md:grid md:grid-cols-2 gap-8">
+      <BlogCard
+        title={featuredPost.data.title}
+        description={featuredPost.data.description}
+        publishDate={featuredPost.data.publishDate}
+        category={featuredPost.data.category}
+        slug={featuredPost.slug}
+        image={featuredPost.data.image}
+        readingTime={featuredPost.data.readingTime}
+      />
+      <div class="hidden md:flex items-center justify-center p-8 bg-gradient-to-br from-accent-blue/10 via-accent-purple/10 to-accent-cyan/10 rounded-2xl border border-white/10">
+        <div class="text-center">
+          <div class="inline-block px-4 py-2 bg-accent-blue/20 rounded-full text-accent-blue text-sm font-medium mb-4">
+            ✨ Artículo Destacado
+          </div>
+          <p class="text-white/80 text-lg">
+            Este artículo ha sido seleccionado por su relevancia y calidad
+          </p>
+        </div>
+      </div>
+    </div>
+  )}
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {regularPosts.map(post => (
+      <BlogCard
+        title={post.data.title}
+        description={post.data.description}
+        publishDate={post.data.publishDate}
+        category={post.data.category}
+        slug={post.slug}
+        image={post.data.image}
+        readingTime={post.data.readingTime}
+      />
+    ))}
+  </div>
+
+  {posts.length === 0 && (
+    <div class="text-center py-12">
+      <p class="text-white/60">No hay artículos disponibles en esta categoría.</p>
+    </div>
+  )}
+</div>

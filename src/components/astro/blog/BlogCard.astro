@@ -1,0 +1,111 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  category: string;
+  slug: string;
+  image?: { url: string; alt: string };
+  readingTime?: number;
+}
+
+const { title, description, publishDate, category, slug, image, readingTime } = Astro.props;
+
+// Formatear fecha en español
+const formattedDate = new Intl.DateTimeFormat('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}).format(publishDate);
+
+// Mapeo de categorías a colores
+const categoryColors: Record<string, string> = {
+  'metodologia': 'accent-blue',
+  'herramientas-ia': 'accent-purple',
+  'casos-estudio': 'accent-cyan',
+  'prompting': 'accent-blue',
+  'automatizacion': 'accent-purple',
+  'industria': 'accent-cyan'
+};
+
+const categoryColor = categoryColors[category] || 'accent-blue';
+
+// Nombres legibles de categorías
+const categoryNames: Record<string, string> = {
+  'metodologia': 'Metodología',
+  'herramientas-ia': 'Herramientas IA',
+  'casos-estudio': 'Casos de Estudio',
+  'prompting': 'Prompting',
+  'automatizacion': 'Automatización',
+  'industria': 'Industria'
+};
+
+const categoryName = categoryNames[category] || category;
+---
+
+<article class="group bg-dark-800 border border-white/10 rounded-2xl overflow-hidden hover:border-white/30 transition-all duration-300">
+  <a href={`/blog/${slug}`} class="block">
+    {image && (
+      <div class="aspect-video overflow-hidden">
+        <img
+          src={image.url}
+          alt={image.alt}
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+        />
+      </div>
+    )}
+
+    <div class="p-6">
+      <!-- Category badge -->
+      <span class={`inline-block px-3 py-1 text-xs font-medium rounded-full mb-3 bg-${categoryColor}/10 text-${categoryColor} border border-${categoryColor}/30`}>
+        {categoryName}
+      </span>
+
+      <!-- Title -->
+      <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-accent-blue transition-colors">
+        {title}
+      </h3>
+
+      <!-- Description -->
+      <p class="text-white/60 text-sm mb-4 line-clamp-3">
+        {description}
+      </p>
+
+      <!-- Meta info -->
+      <div class="flex items-center gap-4 text-xs text-white/40">
+        <time datetime={publishDate.toISOString()}>
+          {formattedDate}
+        </time>
+        {readingTime && (
+          <>
+            <span>•</span>
+            <span>{readingTime} min de lectura</span>
+          </>
+        )}
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  /* Workaround para clases dinámicas de Tailwind */
+  :global(.bg-accent-blue\/10) { background-color: rgb(59 130 246 / 0.1); }
+  :global(.bg-accent-purple\/10) { background-color: rgb(139 92 246 / 0.1); }
+  :global(.bg-accent-cyan\/10) { background-color: rgb(6 182 212 / 0.1); }
+
+  :global(.text-accent-blue) { color: #3b82f6; }
+  :global(.text-accent-purple) { color: #8b5cf6; }
+  :global(.text-accent-cyan) { color: #06b6d4; }
+
+  :global(.border-accent-blue\/30) { border-color: rgb(59 130 246 / 0.3); }
+  :global(.border-accent-purple\/30) { border-color: rgb(139 92 246 / 0.3); }
+  :global(.border-accent-cyan\/30) { border-color: rgb(6 182 212 / 0.3); }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

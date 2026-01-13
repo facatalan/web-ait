@@ -1,0 +1,124 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  author: string;
+  category: string;
+  readingTime?: number;
+}
+
+const { title, description, publishDate, author, category, readingTime } = Astro.props;
+
+// Formatear fecha en español
+const formattedDate = new Intl.DateTimeFormat('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}).format(publishDate);
+
+// Mapeo de categorías a colores
+const categoryColors: Record<string, string> = {
+  'metodologia': 'accent-blue',
+  'herramientas-ia': 'accent-purple',
+  'casos-estudio': 'accent-cyan',
+  'prompting': 'accent-blue',
+  'automatizacion': 'accent-purple',
+  'industria': 'accent-cyan'
+};
+
+const categoryColor = categoryColors[category] || 'accent-blue';
+
+// Nombres legibles de categorías
+const categoryNames: Record<string, string> = {
+  'metodologia': 'Metodología',
+  'herramientas-ia': 'Herramientas IA',
+  'casos-estudio': 'Casos de Estudio',
+  'prompting': 'Prompting',
+  'automatizacion': 'Automatización',
+  'industria': 'Industria'
+};
+
+const categoryName = categoryNames[category] || category;
+---
+
+<header class="max-w-4xl mx-auto mb-12">
+  <!-- Breadcrumb -->
+  <nav class="mb-6">
+    <ol class="flex items-center gap-2 text-sm text-white/60">
+      <li><a href="/" class="hover:text-white transition-colors">Inicio</a></li>
+      <li>/</li>
+      <li><a href="/blog" class="hover:text-white transition-colors">Blog</a></li>
+      <li>/</li>
+      <li class="text-white/40">{title}</li>
+    </ol>
+  </nav>
+
+  <!-- Category badge -->
+  <a
+    href={`/blog/categoria/${category}`}
+    class={`inline-block px-4 py-2 text-sm font-medium rounded-full mb-6 bg-${categoryColor}/10 text-${categoryColor} border border-${categoryColor}/30 hover:bg-${categoryColor}/20 transition-colors`}
+  >
+    {categoryName}
+  </a>
+
+  <!-- Title -->
+  <h1 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
+    {title}
+  </h1>
+
+  <!-- Description -->
+  <p class="text-xl text-white/80 mb-8 leading-relaxed">
+    {description}
+  </p>
+
+  <!-- Meta info -->
+  <div class="flex flex-wrap items-center gap-4 text-sm text-white/60 pb-8 border-b border-white/10">
+    <div class="flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+      </svg>
+      <span>{author}</span>
+    </div>
+
+    <span>•</span>
+
+    <div class="flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+      </svg>
+      <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+    </div>
+
+    {readingTime && (
+      <>
+        <span>•</span>
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>{readingTime} min de lectura</span>
+        </div>
+      </>
+    )}
+  </div>
+</header>
+
+<style>
+  /* Workaround para clases dinámicas de Tailwind */
+  :global(.bg-accent-blue\/10) { background-color: rgb(59 130 246 / 0.1); }
+  :global(.bg-accent-purple\/10) { background-color: rgb(139 92 246 / 0.1); }
+  :global(.bg-accent-cyan\/10) { background-color: rgb(6 182 212 / 0.1); }
+
+  :global(.bg-accent-blue\/20) { background-color: rgb(59 130 246 / 0.2); }
+  :global(.bg-accent-purple\/20) { background-color: rgb(139 92 246 / 0.2); }
+  :global(.bg-accent-cyan\/20) { background-color: rgb(6 182 212 / 0.2); }
+
+  :global(.text-accent-blue) { color: #3b82f6; }
+  :global(.text-accent-purple) { color: #8b5cf6; }
+  :global(.text-accent-cyan) { color: #06b6d4; }
+
+  :global(.border-accent-blue\/30) { border-color: rgb(59 130 246 / 0.3); }
+  :global(.border-accent-purple\/30) { border-color: rgb(139 92 246 / 0.3); }
+  :global(.border-accent-cyan\/30) { border-color: rgb(6 182 212 / 0.3); }
+</style>

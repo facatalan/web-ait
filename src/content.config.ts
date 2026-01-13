@@ -41,4 +41,36 @@ const programas = defineCollection({
   }),
 });
 
-export const collections = { cursos, programas };
+const blog = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    author: z.string().default('Felipe Catalán'),
+    publishDate: z.date(),
+    category: z.enum([
+      'metodologia',
+      'herramientas-ia',
+      'casos-estudio',
+      'prompting',
+      'automatizacion',
+      'industria'
+    ]),
+    tags: z.array(z.string()).default([]),
+    image: z.object({
+      url: z.string(),
+      alt: z.string()
+    }).optional(),
+    isDraft: z.boolean().default(false),
+    featured: z.boolean().default(false),
+    readingTime: z.number().optional(),
+    seo: z.object({
+      metaTitle: z.string().optional(),
+      metaDescription: z.string().optional(),
+      ogImage: z.string().optional(),
+      keywords: z.array(z.string()).optional(),
+    }).optional(),
+  }),
+});
+
+export const collections = { cursos, programas, blog };

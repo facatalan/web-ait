@@ -1,0 +1,108 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/astro/Header.astro';
+import Footer from '../../components/astro/Footer.astro';
+import PostHeader from '../../components/astro/blog/PostHeader.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => {
+    return data.isDraft !== true;
+  });
+
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Preparar props para SEO dinámico
+const postUrl = `https://ai-thinking.io/blog/${post.slug}`;
+const ogImageUrl = post.data.seo?.ogImage || post.data.image?.url || 'https://ai-thinking.io/images/og-image.jpg';
+
+// Si ogImage no es absoluta, convertirla
+const absoluteOgImage = ogImageUrl.startsWith('http') ? ogImageUrl : `https://ai-thinking.io${ogImageUrl}`;
+---
+
+<Layout
+  title={post.data.seo?.metaTitle || `${post.data.title} | AI Thinking Blog`}
+  description={post.data.seo?.metaDescription || post.data.description}
+  ogTitle={post.data.seo?.metaTitle || post.data.title}
+  ogDescription={post.data.seo?.metaDescription || post.data.description}
+  ogImage={absoluteOgImage}
+  ogType="article"
+  canonical={postUrl}
+  keywords={post.data.seo?.keywords || post.data.tags}
+  author={post.data.author}
+  article={{
+    publishedTime: post.data.publishDate.toISOString(),
+    author: post.data.author,
+    section: post.data.category,
+    tags: post.data.tags
+  }}
+>
+  <Header />
+
+  <main class="min-h-screen bg-dark-900 py-20">
+    <article class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      <PostHeader
+        title={post.data.title}
+        description={post.data.description}
+        publishDate={post.data.publishDate}
+        author={post.data.author}
+        category={post.data.category}
+        readingTime={post.data.readingTime}
+      />
+
+      <!-- Post content -->
+      <div class="max-w-4xl mx-auto prose prose-invert prose-lg prose-headings:font-bold prose-headings:text-white prose-p:text-white/80 prose-a:text-accent-blue prose-a:no-underline hover:prose-a:underline prose-strong:text-white prose-code:text-accent-cyan prose-code:bg-dark-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-dark-800 prose-pre:border prose-pre:border-white/10">
+        <Content />
+      </div>
+
+      <!-- Back to blog link -->
+      <div class="max-w-4xl mx-auto mt-12 pt-8 border-t border-white/10">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-2 text-accent-blue hover:text-accent-blue/80 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Volver al blog
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style is:global>
+  /* Ajustes adicionales para el contenido del blog */
+  .prose img {
+    border-radius: 0.5rem;
+    margin: 2rem auto;
+  }
+
+  .prose blockquote {
+    border-left: 4px solid #3b82f6;
+    padding-left: 1.5rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .prose ul, .prose ol {
+    padding-left: 1.5rem;
+  }
+
+  .prose li {
+    margin: 0.5rem 0;
+  }
+</style>

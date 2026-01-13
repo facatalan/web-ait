@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/astro/Header.astro';
+import Footer from '../../components/astro/Footer.astro';
+import CategoryFilter from '../../components/astro/blog/CategoryFilter.astro';
+import BlogGrid from '../../components/astro/blog/BlogGrid.astro';
+import { getCollection } from 'astro:content';
+
+// Obtener todos los posts publicados (no drafts)
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.isDraft !== true;
+});
+
+// Ordenar por fecha de publicación (más recientes primero)
+const sortedPosts = allPosts.sort((a, b) =>
+  b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+// Obtener categorías únicas
+const categories = [...new Set(allPosts.map(post => post.data.category))].sort();
+---
+
+<Layout
+  title="Blog | AI Thinking"
+  description="Artículos sobre metodología, herramientas de IA, casos de éxito y estrategias para amplificar tu experiencia profesional con Inteligencia Artificial."
+  canonical="https://ai-thinking.io/blog"
+  keywords={['blog IA', 'artículos inteligencia artificial', 'metodología IA', 'casos de éxito IA']}
+>
+  <Header />
+
+  <main class="min-h-screen bg-dark-900 py-20">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      <!-- Hero section -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          <span class="gradient-text">Blog de AI Thinking</span>
+        </h1>
+        <p class="text-xl text-white/80 max-w-3xl mx-auto">
+          Explora artículos sobre metodología, herramientas y estrategias para trabajar con IA de forma estratégica
+        </p>
+      </div>
+
+      <!-- Category filter -->
+      <div class="mb-12">
+        <CategoryFilter categories={categories} />
+      </div>
+
+      <!-- Posts grid -->
+      <BlogGrid posts={sortedPosts} showFeatured={true} />
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
