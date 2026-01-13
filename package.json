@@ -12,6 +12,7 @@
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/netlify": "^6.6.3",
     "@astrojs/react": "^4.4.2",
+    "@astrojs/sitemap": "^3.6.1",
     "@astrojs/tailwind": "^6.0.2",
     "@mux/mux-player-react": "^3.10.2",
     "@supabase/supabase-js": "^2.89.0",
