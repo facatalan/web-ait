@@ -26,8 +26,8 @@ function UserMenuContent() {
     return (
       <a
         href="/login"
-        className="px-5 py-2 bg-white/5 border border-white/20 text-white text-sm
-                 font-medium rounded-full hover:bg-white/10 hover:border-white/30 transition-all"
+        className="px-5 py-2.5 bg-white/10 border border-white/30 text-white text-sm
+                 font-medium rounded-full hover:bg-white/20 hover:border-white/50 transition-all"
       >
         Ingresar
       </a>
