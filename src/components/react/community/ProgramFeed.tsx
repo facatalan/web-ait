@@ -13,6 +13,7 @@ interface Post {
   id: string;
   content: string;
   created_at: string;
+  author_id: string;
   author: Author;
   likes_count: number;
   comments_count: number;
@@ -88,6 +89,7 @@ export function ProgramFeed({ programSlug, programTitle }: Props) {
         id,
         content,
         created_at,
+        author_id,
         author:profiles!author_id (
           username,
           full_name,
@@ -111,7 +113,10 @@ export function ProgramFeed({ programSlug, programTitle }: Props) {
         ]);
 
         return {
-          ...post,
+          id: post.id,
+          content: post.content,
+          created_at: post.created_at,
+          author_id: post.author_id,
           author: Array.isArray(post.author) ? post.author[0] : post.author,
           likes_count: likesResult.count || 0,
           comments_count: commentsResult.count || 0,

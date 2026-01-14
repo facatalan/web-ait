@@ -18,6 +18,7 @@ interface Post {
   id: string;
   content: string;
   created_at: string;
+  author_id: string;
   author: Author;
   likes_count: number;
   comments_count: number;
@@ -41,6 +42,16 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
   const [newComment, setNewComment] = useState('');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [commentsCount, setCommentsCount] = useState(post.comments_count);
+
+  // Estados para editar/eliminar
+  const [showMenu, setShowMenu] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(post.content);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const isOwner = currentUserId === post.author_id;
 
   function formatDate(dateString: string) {
     const date = new Date(dateString);
@@ -117,6 +128,42 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
     setLoadingComments(false);
   }
 
+  async function handleEdit() {
+    if (!editContent.trim() || isUpdating) return;
+
+    setIsUpdating(true);
+
+    const { error } = await supabase
+      .from('posts')
+      .update({ content: editContent.trim(), updated_at: new Date().toISOString() })
+      .eq('id', post.id);
+
+    if (!error) {
+      setIsEditing(false);
+      onUpdate();
+    }
+
+    setIsUpdating(false);
+  }
+
+  async function handleDelete() {
+    if (isDeleting) return;
+
+    setIsDeleting(true);
+
+    const { error } = await supabase
+      .from('posts')
+      .delete()
+      .eq('id', post.id);
+
+    if (!error) {
+      onUpdate();
+    }
+
+    setIsDeleting(false);
+    setShowDeleteConfirm(false);
+  }
+
   async function handleSubmitComment(e: React.FormEvent) {
     e.preventDefault();
     if (!newComment.trim() || !currentUserId || isSubmittingComment) return;
@@ -180,10 +227,76 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
           </div>
           <span className="text-gray-500 text-sm">{formatDate(post.created_at)}</span>
         </div>
+
+        {/* Menú de opciones para el autor */}
+        {isOwner && (
+          <div className="relative">
+            <button
+              onClick={() => setShowMenu(!showMenu)}
+              className="p-1 text-gray-500 hover:text-white transition-colors rounded-lg hover:bg-white/10"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+              </svg>
+            </button>
+
+            {showMenu && (
+              <div className="absolute right-0 mt-1 w-32 bg-dark-700 border border-white/10 rounded-lg shadow-lg z-10 overflow-hidden">
+                <button
+                  onClick={() => {
+                    setIsEditing(true);
+                    setShowMenu(false);
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-white/10 transition-colors"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => {
+                    setShowDeleteConfirm(true);
+                    setShowMenu(false);
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-white/10 transition-colors"
+                >
+                  Eliminar
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Content */}
-      <p className="text-gray-300 whitespace-pre-wrap mb-4">{post.content}</p>
+      {isEditing ? (
+        <div className="mb-4">
+          <textarea
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            className="w-full bg-dark-700 border border-white/10 rounded-xl p-3 text-gray-300 resize-none focus:outline-none focus:border-accent-blue/50 transition-colors"
+            rows={3}
+          />
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              onClick={() => {
+                setIsEditing(false);
+                setEditContent(post.content);
+              }}
+              className="px-3 py-1.5 text-sm text-gray-400 hover:text-white transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleEdit}
+              disabled={!editContent.trim() || isUpdating}
+              className="px-3 py-1.5 text-sm bg-accent-blue hover:bg-accent-blue/80 disabled:bg-gray-600 text-white rounded-lg transition-colors"
+            >
+              {isUpdating ? 'Guardando...' : 'Guardar'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p className="text-gray-300 whitespace-pre-wrap mb-4">{post.content}</p>
+      )}
 
       {/* Actions */}
       <div className="flex items-center gap-6 text-gray-500">
@@ -301,6 +414,31 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
               )}
             </>
           )}
+        </div>
+      )}
+
+      {/* Modal de confirmación de eliminación */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-dark-800 border border-white/10 rounded-2xl p-6 max-w-sm mx-4">
+            <h3 className="text-lg font-semibold text-white mb-2">Eliminar publicacion</h3>
+            <p className="text-gray-400 mb-4">¿Estas seguro? Esta accion no se puede deshacer.</p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="px-4 py-2 text-sm bg-red-500 hover:bg-red-600 disabled:bg-gray-600 text-white rounded-lg transition-colors"
+              >
+                {isDeleting ? 'Eliminando...' : 'Eliminar'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
