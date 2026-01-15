@@ -24,5 +24,6 @@ npm-debug.log*
 # Local Netlify folder
 .netlify
 
-# Content source (symlink to iCloud)
+# Content sources (symlinks to iCloud)
 FAIT-6w
+blog-marketing

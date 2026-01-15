@@ -55,6 +55,31 @@ web-ait/
 └── tsconfig.json             # Path alias: @/* -> src/*
 ```
 
+## External Content Sources (Symlinks)
+
+El proyecto usa symlinks a carpetas en iCloud como fuentes de referencia. Estos están en `.gitignore`:
+
+| Symlink | Destino | Propósito |
+|---------|---------|-----------|
+| `FAIT-6w` | iCloud | Contenido del programa FAIT |
+| `blog-marketing` | iCloud/Blog | Artículos creados por marketing, usados como fuente de información para crear posts en `src/content/blog/` |
+
+**Nota**: Estos symlinks son fuentes de referencia, no se despliegan. El contenido final del blog vive en `src/content/blog/`.
+
+## Blog Images
+
+Las imágenes del blog deben estar en formato **WebP** para optimizar el rendimiento. Se guardan en `public/images/blog/`.
+
+**Conversión de imágenes:**
+```bash
+cwebp -q 80 imagen-original.jpg -o public/images/blog/nombre-imagen.webp
+```
+
+**En el MDX:**
+```markdown
+![Alt text](/images/blog/nombre-imagen.webp)
+```
+
 ## Design System
 
 ### Colors (tailwind.config.mjs)
