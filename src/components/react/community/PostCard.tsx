@@ -395,6 +395,13 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
             className="w-full bg-dark-700 border border-white/10 rounded-xl p-3 text-gray-300 resize-none focus:outline-none focus:border-accent-blue/50 transition-colors"
             rows={3}
           />
+          <p className="text-xs text-gray-500 mt-1.5 px-1">
+            <span className="text-gray-400">Formato:</span>{' '}
+            <code className="px-1 py-0.5 bg-dark-600 rounded text-accent-cyan">**negrita**</code>{' '}
+            <code className="px-1 py-0.5 bg-dark-600 rounded text-accent-cyan">*itálica*</code>{' '}
+            <code className="px-1 py-0.5 bg-dark-600 rounded text-accent-cyan">`código`</code>{' '}
+            <code className="px-1 py-0.5 bg-dark-600 rounded text-accent-cyan">[link](url)</code>
+          </p>
           <div className="flex items-center justify-between mt-2">
             <div className="flex items-center gap-1 bg-dark-700 rounded-lg p-1">
               <button
