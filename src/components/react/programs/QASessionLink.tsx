@@ -237,7 +237,7 @@ export function QASessionLink({ programSlug }: QASessionLinkProps) {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-white/5">
+        <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-white/5">
           <a
             href="https://meet.google.com/bku-dvmi-rwk"
             target="_blank"
@@ -251,21 +251,17 @@ export function QASessionLink({ programSlug }: QASessionLinkProps) {
             Unirse
           </a>
           <CalendarDropdown />
+          <span className="text-white/20 mx-1">|</span>
+          <a
+            href={`/programas/${programSlug}/comunidad/grabaciones`}
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm text-gray-400 hover:text-red-400 transition-colors"
+          >
+            <svg className="w-3.5 h-3.5 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="6" />
+            </svg>
+            Grabaciones
+          </a>
         </div>
-
-        <a
-          href={`/programas/${programSlug}/comunidad/grabaciones`}
-          className="flex items-center gap-2 mt-3 text-sm text-gray-400 hover:text-accent-blue transition-colors"
-        >
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="4" className="text-red-400" />
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-          </svg>
-          Ver grabaciones anteriores
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
       </div>
     </div>
   );
