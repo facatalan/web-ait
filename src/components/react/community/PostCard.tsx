@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { supabase } from '../../../lib/supabase';
 
 interface Author {
@@ -211,23 +211,82 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
   const displayName = post.author.full_name || post.author.username;
   const initials = displayName.slice(0, 2).toUpperCase();
 
+  // Renderizar markdown básico (solo inline: bold, italic, code, links)
+  function renderMarkdown(text: string): React.ReactNode[] {
+    const elements: React.ReactNode[] = [];
+    let remaining = text;
+    let key = 0;
+
+    // Patrones en orden de prioridad
+    const patterns = [
+      // Links [text](url)
+      { regex: /\[([^\]]+)\]\(([^)]+)\)/, render: (match: RegExpMatchArray) => (
+        <a key={key++} href={match[2]} target="_blank" rel="noopener noreferrer" className="text-accent-blue hover:underline">{match[1]}</a>
+      )},
+      // Bold **text** or __text__
+      { regex: /\*\*([^*]+)\*\*|__([^_]+)__/, render: (match: RegExpMatchArray) => (
+        <strong key={key++} className="font-semibold text-white">{match[1] || match[2]}</strong>
+      )},
+      // Italic *text* or _text_ (not inside words)
+      { regex: /(?<!\w)\*([^*]+)\*(?!\w)|(?<!\w)_([^_]+)_(?!\w)/, render: (match: RegExpMatchArray) => (
+        <em key={key++} className="italic">{match[1] || match[2]}</em>
+      )},
+      // Inline code `code`
+      { regex: /`([^`]+)`/, render: (match: RegExpMatchArray) => (
+        <code key={key++} className="px-1.5 py-0.5 bg-dark-600 rounded text-sm font-mono text-accent-cyan">{match[1]}</code>
+      )},
+      // Strikethrough ~~text~~
+      { regex: /~~([^~]+)~~/, render: (match: RegExpMatchArray) => (
+        <span key={key++} className="line-through text-gray-500">{match[1]}</span>
+      )},
+    ];
+
+    while (remaining.length > 0) {
+      let earliestMatch: { index: number; match: RegExpMatchArray; pattern: typeof patterns[0] } | null = null;
+
+      for (const pattern of patterns) {
+        const match = remaining.match(pattern.regex);
+        if (match && match.index !== undefined) {
+          if (!earliestMatch || match.index < earliestMatch.index) {
+            earliestMatch = { index: match.index, match, pattern };
+          }
+        }
+      }
+
+      if (earliestMatch) {
+        // Add text before the match
+        if (earliestMatch.index > 0) {
+          elements.push(remaining.slice(0, earliestMatch.index));
+        }
+        // Add the formatted element
+        elements.push(earliestMatch.pattern.render(earliestMatch.match));
+        // Continue with the rest
+        remaining = remaining.slice(earliestMatch.index + earliestMatch.match[0].length);
+      } else {
+        // No more matches, add remaining text
+        elements.push(remaining);
+        break;
+      }
+    }
+
+    return elements;
+  }
+
   // Detectar y renderizar videos embebidos de Google Drive
   function renderContent(content: string) {
     // Regex para detectar URLs de Google Drive
     const driveRegex = /https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/[^\s]*/g;
     const matches = content.match(driveRegex);
 
-    if (!matches || matches.length === 0) {
-      return <p className="text-gray-300 whitespace-pre-wrap">{content}</p>;
-    }
-
-    // Extraer el file ID del primer video encontrado
-    const firstMatch = matches[0];
-    const fileIdMatch = firstMatch.match(/\/d\/([a-zA-Z0-9_-]+)/);
-    const fileId = fileIdMatch ? fileIdMatch[1] : null;
-
     // Remover la URL del contenido para mostrar solo el texto
     const textContent = content.replace(driveRegex, '').trim();
+
+    // Extraer el file ID del primer video encontrado
+    let fileId: string | null = null;
+    if (matches && matches.length > 0) {
+      const fileIdMatch = matches[0].match(/\/d\/([a-zA-Z0-9_-]+)/);
+      fileId = fileIdMatch ? fileIdMatch[1] : null;
+    }
 
     return (
       <>
@@ -242,7 +301,7 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
           </div>
         )}
         {textContent && (
-          <p className="text-gray-300 whitespace-pre-wrap">{textContent}</p>
+          <p className="text-gray-300 whitespace-pre-wrap">{renderMarkdown(textContent)}</p>
         )}
       </>
     );
