@@ -23,6 +23,7 @@ interface Post {
   likes_count: number;
   comments_count: number;
   user_has_liked: boolean;
+  post_type?: 'post' | 'recording' | 'announcement';
 }
 
 interface Props {
@@ -262,7 +263,25 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
             <span className="font-medium text-white truncate">{displayName}</span>
             <span className="text-gray-500 text-sm">@{post.author.username}</span>
           </div>
-          <span className="text-gray-500 text-sm">{formatDate(post.created_at)}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500 text-sm">{formatDate(post.created_at)}</span>
+            {post.post_type === 'recording' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500/20 text-red-400 text-xs font-medium rounded-full">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="8" />
+                </svg>
+                Grabación
+              </span>
+            )}
+            {post.post_type === 'announcement' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs font-medium rounded-full">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                </svg>
+                Anuncio
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Menú de opciones para el autor */}

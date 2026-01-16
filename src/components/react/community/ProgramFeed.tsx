@@ -18,14 +18,26 @@ interface Post {
   likes_count: number;
   comments_count: number;
   user_has_liked: boolean;
+  post_type: 'post' | 'recording' | 'announcement';
 }
 
 interface Props {
   programSlug: string;
   programTitle: string;
+  filterType?: 'post' | 'recording' | 'announcement';
+  title?: string;
+  subtitle?: string;
+  showCreatePost?: boolean;
 }
 
-export function ProgramFeed({ programSlug, programTitle }: Props) {
+export function ProgramFeed({
+  programSlug,
+  programTitle,
+  filterType,
+  title = 'Comunidad',
+  subtitle,
+  showCreatePost = true
+}: Props) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | undefined>();
@@ -83,21 +95,28 @@ export function ProgramFeed({ programSlug, programTitle }: Props) {
   async function loadPosts() {
     const { data: { user } } = await supabase.auth.getUser();
 
-    const { data: postsData } = await supabase
+    let query = supabase
       .from('posts')
       .select(`
         id,
         content,
         created_at,
         author_id,
+        post_type,
         author:profiles!author_id (
           username,
           full_name,
           avatar_url
         )
       `)
-      .eq('program_slug', programSlug)
-      .order('created_at', { ascending: false });
+      .eq('program_slug', programSlug);
+
+    // Apply filter if specified
+    if (filterType) {
+      query = query.eq('post_type', filterType);
+    }
+
+    const { data: postsData } = await query.order('created_at', { ascending: false });
 
     if (!postsData) return;
 
@@ -117,6 +136,7 @@ export function ProgramFeed({ programSlug, programTitle }: Props) {
           content: post.content,
           created_at: post.created_at,
           author_id: post.author_id,
+          post_type: post.post_type || 'post',
           author: Array.isArray(post.author) ? post.author[0] : post.author,
           likes_count: likesResult.count || 0,
           comments_count: commentsResult.count || 0,
@@ -179,11 +199,11 @@ export function ProgramFeed({ programSlug, programTitle }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white mb-2">Comunidad</h1>
-        <p className="text-gray-400">{programTitle}</p>
+        <h1 className="text-2xl font-bold text-white mb-2">{title}</h1>
+        <p className="text-gray-400">{subtitle || programTitle}</p>
       </div>
 
-      <CreateProgramPost programSlug={programSlug} onPostCreated={loadPosts} />
+      {showCreatePost && <CreateProgramPost programSlug={programSlug} onPostCreated={loadPosts} />}
 
       {posts.length === 0 ? (
         <div className="bg-dark-800 border border-white/10 rounded-2xl p-8 text-center">
