@@ -205,6 +205,43 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
   const displayName = post.author.full_name || post.author.username;
   const initials = displayName.slice(0, 2).toUpperCase();
 
+  // Detectar y renderizar videos embebidos de Google Drive
+  function renderContent(content: string) {
+    // Regex para detectar URLs de Google Drive
+    const driveRegex = /https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/[^\s]*/g;
+    const matches = content.match(driveRegex);
+
+    if (!matches || matches.length === 0) {
+      return <p className="text-gray-300 whitespace-pre-wrap">{content}</p>;
+    }
+
+    // Extraer el file ID del primer video encontrado
+    const firstMatch = matches[0];
+    const fileIdMatch = firstMatch.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    const fileId = fileIdMatch ? fileIdMatch[1] : null;
+
+    // Remover la URL del contenido para mostrar solo el texto
+    const textContent = content.replace(driveRegex, '').trim();
+
+    return (
+      <>
+        {fileId && (
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-dark-900 mb-3">
+            <iframe
+              src={`https://drive.google.com/file/d/${fileId}/preview`}
+              className="absolute inset-0 w-full h-full"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+          </div>
+        )}
+        {textContent && (
+          <p className="text-gray-300 whitespace-pre-wrap">{textContent}</p>
+        )}
+      </>
+    );
+  }
+
   return (
     <div className="bg-dark-800 border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-colors">
       {/* Header */}
@@ -295,7 +332,7 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
           </div>
         </div>
       ) : (
-        <p className="text-gray-300 whitespace-pre-wrap mb-4">{post.content}</p>
+        <div className="mb-4">{renderContent(post.content)}</div>
       )}
 
       {/* Actions */}
