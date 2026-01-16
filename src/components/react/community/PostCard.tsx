@@ -48,6 +48,7 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
   const [showMenu, setShowMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
+  const [editPostType, setEditPostType] = useState<'post' | 'recording' | 'announcement'>(post.post_type || 'post');
   const [isUpdating, setIsUpdating] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -136,7 +137,11 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
 
     const { error } = await supabase
       .from('posts')
-      .update({ content: editContent.trim(), updated_at: new Date().toISOString() })
+      .update({
+        content: editContent.trim(),
+        post_type: editPostType,
+        updated_at: new Date().toISOString()
+      })
       .eq('id', post.id);
 
     if (!error) {
@@ -331,23 +336,61 @@ export function PostCard({ post, currentUserId, onUpdate }: Props) {
             className="w-full bg-dark-700 border border-white/10 rounded-xl p-3 text-gray-300 resize-none focus:outline-none focus:border-accent-blue/50 transition-colors"
             rows={3}
           />
-          <div className="flex justify-end gap-2 mt-2">
-            <button
-              onClick={() => {
-                setIsEditing(false);
-                setEditContent(post.content);
-              }}
-              className="px-3 py-1.5 text-sm text-gray-400 hover:text-white transition-colors"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleEdit}
-              disabled={!editContent.trim() || isUpdating}
-              className="px-3 py-1.5 text-sm bg-accent-blue hover:bg-accent-blue/80 disabled:bg-gray-600 text-white rounded-lg transition-colors"
-            >
-              {isUpdating ? 'Guardando...' : 'Guardar'}
-            </button>
+          <div className="flex items-center justify-between mt-2">
+            <div className="flex items-center gap-1 bg-dark-700 rounded-lg p-1">
+              <button
+                type="button"
+                onClick={() => setEditPostType('post')}
+                className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                  editPostType === 'post' ? 'bg-dark-600 text-white' : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                Normal
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditPostType('recording')}
+                className={`flex items-center gap-1 px-3 py-1 text-sm rounded-md transition-colors ${
+                  editPostType === 'recording' ? 'bg-red-500/20 text-red-400' : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="8" />
+                </svg>
+                Grabación
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditPostType('announcement')}
+                className={`flex items-center gap-1 px-3 py-1 text-sm rounded-md transition-colors ${
+                  editPostType === 'announcement' ? 'bg-amber-500/20 text-amber-400' : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                </svg>
+                Anuncio
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  setIsEditing(false);
+                  setEditContent(post.content);
+                  setEditPostType(post.post_type || 'post');
+                }}
+                className="px-3 py-1.5 text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleEdit}
+                disabled={!editContent.trim() || isUpdating}
+                className="px-3 py-1.5 text-sm bg-accent-blue hover:bg-accent-blue/80 disabled:bg-gray-600 text-white rounded-lg transition-colors"
+              >
+                {isUpdating ? 'Guardando...' : 'Guardar'}
+              </button>
+            </div>
           </div>
         </div>
       ) : (
