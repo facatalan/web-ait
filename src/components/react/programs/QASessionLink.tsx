@@ -251,10 +251,10 @@ export function QASessionLink({ programSlug }: QASessionLinkProps) {
             Unirse
           </a>
           <CalendarDropdown />
-          <span className="text-white/20 mx-1">|</span>
           <a
             href={`/programas/${programSlug}/comunidad/grabaciones`}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm text-gray-400 hover:text-red-400 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-2 bg-dark-600 hover:bg-dark-500 border border-white/10
+                       text-sm text-gray-300 hover:text-white rounded-lg transition-colors"
           >
             <svg className="w-3.5 h-3.5 text-red-400" fill="currentColor" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="6" />
