@@ -43,4 +43,16 @@ export const RECURSOS: Record<string, Recurso> = {
     ],
     pages: '5',
   },
+  'privacidad-ia-2026': {
+    title: 'Privacidad e IA: Guía 2026',
+    description: 'Aprende a proteger tus datos y los de tu organización mientras aprovechas el poder de la inteligencia artificial de forma segura y ética.',
+    url: 'https://www.ai-thinking.io/lead-magnets/recurso_privacidad_ia_2026.pdf',
+    benefits: [
+      'Marco legal actualizado de privacidad en IA para 2026',
+      'Checklist de cumplimiento para uso empresarial de IA',
+      'Mejores prácticas para proteger datos sensibles',
+      'Guía de configuración de privacidad en herramientas populares',
+    ],
+    pages: '17',
+  },
 };
