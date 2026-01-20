@@ -1,0 +1,158 @@
+---
+title: "Analicé los Terms of Service de 6 plataformas de IA. Esto es lo que encontré."
+description: "Después de revisar los términos de servicio de ChatGPT, Claude, Gemini, Copilot, Perplexity y Grok, descubrí que pagar $20/mes no te protege como crees."
+author: "Felipe Catalán"
+publishDate: 2026-01-20
+category: "herramientas-ia"
+tags: ["privacidad", "seguridad", "chatgpt", "claude", "términos de servicio", "datos"]
+readingTime: 8
+image:
+  url: "/images/blog/privacidad-ia-tabla-tiers.webp"
+  alt: "Tabla comparativa de protecciones por tier en plataformas de IA: Free, Pro, Team y Enterprise"
+seo:
+  metaTitle: "Privacidad en IA: Lo que los Terms of Service no te dicen claramente"
+  metaDescription: "Análisis completo de los términos de servicio de ChatGPT, Claude, Gemini, Copilot, Perplexity y Grok. Descubre qué tier realmente protege tus datos."
+  keywords: ["privacidad ia", "chatgpt términos servicio", "claude privacidad", "protección datos ia", "nda inteligencia artificial"]
+---
+
+# La pregunta que desencadenó todo
+
+Hace unas semanas, un cliente me preguntó algo que probablemente tú también te has preguntado:
+
+> "Felipe, si uso ChatGPT para revisar un contrato de mi cliente, ¿estoy violando el NDA que firmé?"
+
+Mi respuesta inicial fue "depende". Pero me di cuenta de que necesitaba una respuesta más concreta. Así que hice algo que pocos hacen: me senté a leer los Terms of Service completos de las 6 principales plataformas de IA generativa.
+
+ChatGPT. Claude. Gemini. Microsoft Copilot. Perplexity. Grok.
+
+Lo que encontré me sorprendió. Y creo que a ti también.
+
+## Hallazgo #1: Pagar $20/mes NO te protege
+
+Esta es la confusión más común que encontré entre ejecutivos y consultores.
+
+Muchos creen que al pagar por ChatGPT Plus ($20/mes), Claude Pro ($20/mes) o Gemini Advanced ($20/mes), obtienen algún tipo de protección empresarial.
+
+**No es así.**
+
+Los planes de ~$20/mes te dan:
+- Más mensajes por día
+- Acceso a modelos más avanzados
+- Respuestas más rápidas
+
+Los planes de ~$20/mes **NO** te dan:
+- Contrato de procesamiento de datos (DPA)
+- Garantía contractual de que no entrenan con tus datos
+- Protección legal si hay una filtración
+- Indemnización si algo sale mal
+
+De hecho, leí esta cláusula en los ToS de OpenAI:
+
+> "OUR AGGREGATE LIABILITY UNDER THESE TERMS WILL NOT EXCEED THE GREATER OF THE AMOUNT YOU PAID FOR THE SERVICE... OR ONE HUNDRED DOLLARS ($100)."
+
+Traducción: si hay una filtración masiva y pierdes un cliente de $500,000 por violar un NDA, lo máximo que puedes recuperar de OpenAI es... $240 (lo que pagaste en 12 meses).
+
+El resto es tu problema.
+
+## Hallazgo #2: Todos dicen "AS IS" (y eso importa)
+
+Cada uno de los 6 ToS que leí incluye alguna variación de esta frase:
+
+> "THE SERVICES ARE PROVIDED 'AS IS' AND 'AS AVAILABLE' WITHOUT WARRANTY OF ANY KIND"
+
+¿Qué significa "AS IS"?
+
+Imagina que compras un auto usado y el vendedor te dice "lo vendo como está". Si el motor falla mañana, no puedes reclamar. No había garantía.
+
+Eso es exactamente lo que estás aceptando cuando usas estas herramientas con el plan gratuito o de $20/mes:
+
+- No garantizan que funcione
+- No garantizan que sea preciso
+- No garantizan que sea seguro
+- No garantizan que no infrinja derechos de terceros
+
+Y lo más importante para tu NDA: **no garantizan confidencialidad**.
+
+## Hallazgo #3: TÚ los proteges a ELLOS (no al revés)
+
+Este fue el hallazgo que más me impactó.
+
+En los ToS de todas las plataformas encontré cláusulas de indemnización. Pero no funcionan como esperarías.
+
+La dirección es: **tú los proteges a ellos**.
+
+Si usas el servicio de manera que cause problemas legales al proveedor, tú debes defenderlos y pagar sus costos legales.
+
+¿Y si ellos causan problemas a ti? En planes consumer, no hay obligación recíproca. Estás solo.
+
+La indemnización hacia ti (cuando el proveedor te defiende si el output infringe propiedad intelectual de terceros) solo existe en planes **Enterprise**.
+
+## Hallazgo #4: El punto de inflexión está en $25-30/usuario
+
+Aquí está la buena noticia.
+
+La diferencia entre "sin protección" y "con protección real" no es pasar de $20 a $200. Es pasar de $20 a $25-30 por usuario.
+
+Los planes **Team** o **Business** de la mayoría de plataformas (~$25-30/usuario/mes) incluyen:
+
+- **DPA (Data Processing Agreement)**: Un contrato real que establece responsabilidades
+- **Garantía contractual de no-entrenamiento**: No es un toggle que puedes olvidar, es un compromiso legal
+- **Audit logs**: Registro de quién hizo qué, útil para demostrar compliance
+
+Por $5-10 más por usuario que el plan Pro, obtienes lo que tu departamento legal realmente necesita ver.
+
+## La Tabla Maestra: Qué obtienes en cada Tier
+
+![Tabla comparativa de lo que obtienes en cada tier de IA: Free, Pro, Team y Enterprise](/images/blog/privacidad-ia-tabla-tiers.webp)
+
+Esta tabla resume las diferencias clave entre los tiers. Nota cómo las protecciones reales (DPA, garantía contractual, indemnización) solo aparecen a partir del nivel Team.
+
+## Hallazgo #5: Grok es el más riesgoso
+
+Cuando empecé esta investigación, no tenía prejuicios sobre ninguna plataforma. Pero los datos son claros.
+
+Grok (xAI) tiene:
+- El historial de incidentes más grave de 2025 (370,000 chats indexados públicamente)
+- Los ToS más restrictivos (solo puedes demandar en Texas, ellos pueden demandarte donde sea)
+- Una cláusula explícita que dice que NO son responsables por "hacking o acceso no autorizado"
+- Una investigación GDPR activa
+
+Si tu organización es risk-averse, hay mejores opciones.
+
+## ¿Entonces qué hago?
+
+La respuesta no es dejar de usar IA. Es usar el tier correcto para el tipo de información que manejas.
+
+**Mi framework simple:**
+
+| Tipo de información | Tier mínimo |
+|---------------------|-------------|
+| Pública, aprendizaje | Free está bien |
+| Semi-confidencial (borradores, research) | Pro (~$20) con opt-out activado |
+| Confidencial (estrategias, propuestas) | Team (~$25-30/usuario) |
+| Altamente confidencial (NDAs, datos de clientes) | Enterprise |
+
+## Descarga la Guía Completa de Privacidad en IA 2026
+
+Después de esta investigación, compilé todo en una guía práctica que puedes consultar antes de decidir qué tier usar.
+
+Incluye:
+- Tabla de decisión rápida por tipo de información
+- Comparativa detallada de las 6 plataformas
+- Cómo activar opt-out en cada una (con capturas de pantalla)
+- Checklist antes de pegar información de trabajo
+- Glosario de términos (DPA, BAA, opt-in, opt-out, etc.)
+
+**[Descarga la Guía de Privacidad en IA 2026 aquí](/recursos/privacidad-ia-2026)**
+
+## Conclusión
+
+El "miedo Samsung" que muchos ejecutivos tienen es legítimo. Pero no es razón para evitar la IA.
+
+Es razón para entender qué estás aceptando cuando haces clic en "Acepto los términos".
+
+La diferencia entre violar un NDA y cumplirlo puede ser tan simple como pagar $5-10 más por usuario al mes.
+
+---
+
+*¿Quieres aprender a usar IA de forma estratégica y segura en tu trabajo profesional? [Agenda una llamada](/agendar) para conocer el programa AI-Thinking.*
