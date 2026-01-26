@@ -43,6 +43,18 @@ export const RECURSOS: Record<string, Recurso> = {
     ],
     pages: '5',
   },
+  'guia-metodo-ait': {
+    title: 'Guía del Método AIT: Define, Amplifica, Refina',
+    description: 'Descubre cómo amplificar 20 años de expertise profesional con IA en vez de sonar como un junior. El framework de 3 pasos para que la IA trabaje con tu conocimiento, no con respuestas genéricas.',
+    url: 'https://www.ai-thinking.io/lead-magnets/guia_metodo_AIT.pdf',
+    benefits: [
+      'Framework AIT de 3 pasos: Define, Amplifica, Refina',
+      'Cómo construir tu Digital Brain para que la IA use tu expertise',
+      'Ejercicio práctico de 5 minutos para aplicar el método hoy',
+      'La diferencia entre aceleración y amplificación con IA',
+    ],
+    pages: '3',
+  },
   'privacidad-ia-2026': {
     title: 'Privacidad e IA: Guía 2026',
     description: 'Aprende a proteger tus datos y los de tu organización mientras aprovechas el poder de la inteligencia artificial de forma segura y ética.',
