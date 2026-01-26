@@ -142,6 +142,19 @@ export function SchedulingForm() {
       } else {
         console.log('Lead saved successfully!');
         setSaveStatus('saved');
+
+        // Notificación push (fire-and-forget)
+        fetch('/api/notify-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            timing: data.q4_timing,
+            source: new URLSearchParams(window.location.search).get('source') || 'direct',
+          }),
+        }).catch(() => {});
       }
     } catch (err) {
       console.error('Error:', err);
